@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="true"
+        android:inputType="textCapWords"
+        android:imeOptions="actionSearch"
+        android:queryHint=""
+        android:background="#eee">
+
+    </SearchView>
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/img_investment"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/chat"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
+            android:text="申请与通知"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1.5px"
+        android:background="#eee"/>
+
+    <LinearLayout
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/chat"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
+            android:text="群聊"/>
+
+
+    </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="50px"
+       android:background="#eee">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_marginLeft="5dp"
+           android:textSize="14sp"
+           android:gravity="center_vertical"
+           android:text="朋友列表"/>
+   </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_friendlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>

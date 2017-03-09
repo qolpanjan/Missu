@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_add"
+        android:icon="@mipmap/add_small"
+        android:title="@string/add_new_freind" />
+    <item
+        android:id="@+id/action_scan"
+        android:icon="@mipmap/scan"
+        android:title="@string/scan" />
+    <item
+        android:id="@+id/action_advice"
+        android:icon="@mipmap/send"
+        android:title="@string/advice" />
+    <item
+        android:id="@+id/action_about"
+        android:icon="@mipmap/help"
+        android:title="@string/about" />
+</menu>

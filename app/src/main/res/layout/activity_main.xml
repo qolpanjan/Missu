@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:hyman="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.missu.Activitys.MainActivity">
+
+    <!--
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        >
+
+    </android.support.v7.widget.Toolbar>
+
+    -->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <fragment
+            android:id="@+id/main_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.missu.Fragment.FriendListFragment"
+            />
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:background="@drawable/tab_bg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+
+        <com.missu.ChangeColorAndIcon
+            android:id="@+id/indicator_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            hyman:text="@string/tab_chat"
+            hyman:text_size="12sp"
+            hyman:color="#45c01a"
+            hyman:icon="@mipmap/chat" />
+
+        <com.missu.ChangeColorAndIcon
+            android:id="@+id/indicator_two"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            hyman:text="@string/tab_contact"
+            hyman:text_size="12sp"
+            hyman:color="#45c01a"
+            hyman:icon="@mipmap/contact"/>
+
+        <!--
+
+        <com.missu.ChangeColorAndIcon
+            android:id="@+id/indicator_three"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            hyman:text="@string/tab_moment"
+            hyman:text_size="12sp"
+            hyman:color="#45c01a"
+            hyman:icon="@mipmap/moment"/>
+
+            -->
+
+        <com.missu.ChangeColorAndIcon
+            android:id="@+id/indicator_four"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            hyman:text="@string/tab_me"
+            hyman:text_size="12sp"
+            hyman:color="#45c01a"
+            hyman:icon="@mipmap/me"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

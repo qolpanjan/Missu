@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/lo_left_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_profile_you"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/icon"
+            android:layout_margin="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/lo_left_reseived_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="right"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/reseive"
+            >
+
+            <TextView
+                android:id="@+id/tv_message_received"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="你好"
+                android:layout_gravity="center"
+                android:textColor="#fff"
+                android:textSize="22sp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+   <LinearLayout
+       android:id="@+id/lo_right_message"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="right"
+       android:orientation="horizontal">
+
+       <LinearLayout
+           android:id="@+id/lo_right_send_message"
+           android:layout_marginTop="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:background="@drawable/send"
+           android:layout_marginRight="5dp"
+           android:gravity="center_vertical">
+
+           <TextView
+               android:id="@+id/tv_message_send"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="你好"
+               android:textColor="#fff"
+               android:textSize="22sp" />
+       </LinearLayout>
+
+
+       <ImageView
+           android:id="@+id/img_profile_me"
+           android:layout_width="60dp"
+           android:layout_height="60dp"
+           android:layout_margin="5dp"
+           android:src="@mipmap/icon"/>
+
+
+
+   </LinearLayout>
+
+
+
+
+</LinearLayout>

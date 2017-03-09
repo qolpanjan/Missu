@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Missu</string>
+    <string name="action_serach">搜索</string>
+    <string name="add_new_freind">添加新朋友</string>
+    <string name="scan">扫一扫</string>
+    <string name="advice">意见反馈</string>
+    <string name="about">关于</string>
+
+    <string name="tab_chat">聊天</string>
+    <string name="tab_contact">通讯录</string>
+    <string name="tab_moment">广场</string>
+    <string name="tab_me">我</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="search_label">搜索</string>
+    <string name="search_hint">搜索</string>
+</resources>
+
