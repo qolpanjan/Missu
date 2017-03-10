@@ -22,7 +22,7 @@ public class friend {
 
     private String friend_sex;
 
-    private Blob friend_profile;
+    private Bitmap friend_profile;
 
 
 
@@ -38,7 +38,7 @@ public class friend {
         this.friend_sex = friend_sex;
     }
 
-    public void setUser_profile(Blob friend_profile) {
+    public void setUser_profile(Bitmap friend_profile) {
         this.friend_profile = friend_profile;
     }
 
@@ -56,7 +56,7 @@ public class friend {
         return friend_sex;
     }
 
-    public Blob getUser_profile() {
+    public Bitmap getUser_profile() {
         return friend_profile;
     }
 
