@@ -22,43 +22,10 @@ public class friend {
 
     private String friend_sex;
 
-    private Bitmap friend_profile;
+    private String friend_profile;
 
 
 
-    public void setFriend_name(String friend_name) {
-        this.friend_name = friend_name;
-    }
-
-    public void setFriend_nickname(String friend_nickname) {
-        this.friend_nickname = friend_nickname;
-    }
-
-    public void setFriend_sex(String friend_sex) {
-        this.friend_sex = friend_sex;
-    }
-
-    public void setUser_profile(Bitmap friend_profile) {
-        this.friend_profile = friend_profile;
-    }
-
-
-
-    public String getFriend_name() {
-        return friend_name;
-    }
-
-    public String getFriend_nickname() {
-        return friend_nickname;
-    }
-
-    public String getFriend_sex() {
-        return friend_sex;
-    }
-
-    public Bitmap getUser_profile() {
-        return friend_profile;
-    }
 
 
 }
