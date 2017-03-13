@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.missu.Activitys.MessageListActivity;
 import com.missu.Bean.Message;
 import com.missu.R;
@@ -61,11 +62,16 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
             viewHoldr.leftLayout.setVisibility(View.VISIBLE);
             viewHoldr.rightLayout.setVisibility(View.GONE);
             viewHoldr.receivedMsg.setText(msg.getMessg_content());
-            viewHoldr.receivedImg.setImageBitmap(msg.getMessg_from_profile());
+
+            String imgUrl = msg.getMessg_from_profile();
+            Glide.with(getContext()).load(imgUrl).into(viewHoldr.receivedImg);
+
+            //viewHoldr.receivedImg.setImageBitmap(msg.getMessg_from_profile());
         }else {
             viewHoldr.rightLayout.setVisibility(View.VISIBLE);
             viewHoldr.leftLayout.setVisibility(View.GONE);
             viewHoldr.sendMsg.setText(msg.getMessg_content());
+
             viewHoldr.sendImg.setImageBitmap(MessageListActivity.bmp1);
         }
         return view;

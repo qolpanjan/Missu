@@ -1,6 +1,7 @@
 package com.missu.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +11,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.missu.Activitys.FriendDetailActivity;
 import com.missu.Adapter.FriendAdapter;
 import com.missu.Bean.friend;
 import com.missu.R;
@@ -32,6 +35,7 @@ public class FriendListFragment extends Fragment{
     ImageView img_investment;
     List<friend> FriendList;
     FriendAdapter adapter;
+    public static final String USERID = "userid";
 
     @Override
     public void onAttach(Context context) {
@@ -46,9 +50,10 @@ public class FriendListFragment extends Fragment{
         for(int i=0;i<15;i++) {
             friend friend1 = new friend();
             Resources res = getResources();
-            Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.icon);
+            //Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.icon);
             friend1.setFriend_nickname("超哥");
-            friend1.setUser_profile(bmp);
+            String bmp = "R.mipmap.icon";
+            friend1.setFriend_profile(bmp);
             friends.add(friend1);
         }
         return friends;
@@ -64,6 +69,15 @@ public class FriendListFragment extends Fragment{
         friendListView = (ListView) view.findViewById(R.id.lv_friendlist);
 
         friendListView.setAdapter(adapter);
+        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                friend mfriend =FriendList.get(position);
+                Intent intent = new Intent(getContext(), FriendDetailActivity.class);
+                intent.putExtra(USERID,mfriend.getId());
+                startActivity(intent);
+            }
+        });
         return view;
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_take_photo"
+        android:title="拍照"
+        android:icon="@android:drawable/ic_menu_camera"/>
+    <item
+        android:id="@+id/menu_choose_from_gallery"
+        android:title="从手机相册中选择"
+        android:icon="@android:drawable/ic_menu_gallery"/>
+</menu>

@@ -45,7 +45,8 @@ public class ChatListFragment extends Fragment {
         List<Message> messageList = new ArrayList<>();
         Message messg1 = new Message();
         Resources res = getResources();
-        Bitmap bmp = BitmapFactory.decodeResource(res,R.mipmap.icon);
+        //Bitmap bmp = BitmapFactory.decodeResource(res,R.mipmap.icon);
+        String bmp = "R.mipmap.icon";
         messg1.setMessg_from_profile(bmp);
         messg1.setMessg_from_username("Alimzhan");
         messg1.setMessg_content("Hello, Happy World Womans Day!");
@@ -56,7 +57,8 @@ public class ChatListFragment extends Fragment {
 
         Message messg2 = new Message();
         Resources res1 = getResources();
-        Bitmap bmp1 = BitmapFactory.decodeResource(res1,R.mipmap.ic_launcher);
+        //Bitmap bmp1 = BitmapFactory.decodeResource(res1,R.mipmap.ic_launcher);
+        String bmp1 = "R.mipmap.ic_launcher";
         messg2.setMessg_from_profile(bmp1);
         messg2.setMessg_from_username("马化腾");
         messg2.setMessg_content("把世界做的功能美好点啊！不然的话那里的那么多钱给你花，给你赚啊，我都等不及了。。。");

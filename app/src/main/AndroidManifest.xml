@@ -20,12 +20,24 @@
         </activity>
         <activity
             android:name=".Activitys.MessageListActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask">
-
-        </activity>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activitys.FriendDetailActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activitys.MyAvaterActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activitys.ChangePassActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MainActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

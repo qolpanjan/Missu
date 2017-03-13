@@ -30,6 +30,7 @@ public class MessageListActivity extends AppCompatActivity {
 
     public static final String TYPE_RECEIVED = "0";
     public static final String TYPE_SEND = "1";
+    public static final String DBNAME = "missu.db";
     public static Bitmap bmp1;
 
     private ListView MsgListView;
@@ -73,7 +74,9 @@ public class MessageListActivity extends AppCompatActivity {
 
     }
 
+
     private void initMsgs() {
+     /*
         Message msg=new Message();
         msg.setMessg_type(TYPE_RECEIVED);
         Resources res = getResources();
@@ -82,5 +85,7 @@ public class MessageListActivity extends AppCompatActivity {
         msg.setMessg_content("阿力木江你好，祝你妇女节快乐");
         msg.setMessg_from_username("马化腾");
         msgList.add(msg);
+        */
     }
+
 }

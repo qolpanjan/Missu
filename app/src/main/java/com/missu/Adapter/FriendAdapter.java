@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.missu.Bean.Users;
 import com.missu.Bean.friend;
 import com.missu.R;
@@ -48,7 +49,11 @@ public class FriendAdapter extends ArrayAdapter<friend> {
         }
 
         viewholder.friend_nickname.setText(Friend.getFriend_nickname());
-        viewholder.friend_profile.setImageBitmap(Friend.getUser_profile());
+
+        String imgUrl = Friend.getFriend_profile();
+        Glide.with(getContext()).load(imgUrl).into(viewholder.friend_profile);
+
+        //viewholder.friend_profile.setImageBitmap(Friend.getUser_profile());
         return view;
     }
 

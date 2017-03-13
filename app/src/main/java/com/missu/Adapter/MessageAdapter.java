@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.missu.Bean.Message;
 import com.missu.R;
 
@@ -57,7 +58,11 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         viewHolder.tvChatUsername.setText(message.getMessg_from_username());
         viewHolder.tvLastChatContent.setText(message.getMessg_content());
         viewHolder.tvLastChattime.setText(message.getMessg_time());
-        viewHolder.imageChatProfile.setImageBitmap(message.getMessg_from_profile());
+
+        String imgUrl = message.getMessg_from_profile();
+        Glide.with(getContext()).load(imgUrl).into(viewHolder.imageChatProfile);
+
+        //viewHolder.imageChatProfile.setImageBitmap(message.getMessg_from_profile());
 
         /**
          * 设置显示消息数目的红点

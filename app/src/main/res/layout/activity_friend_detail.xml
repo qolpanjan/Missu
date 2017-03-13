@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.missu.Activitys.FriendDetailActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <com.missu.CreatedUi.RoundAngleImageView
+            android:id="@+id/img_friend_detail_profile"
+            android:layout_marginLeft="10dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/icon"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+
+            <TextView
+                android:id="@+id/tv_friend_detail_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="用户昵称"
+                android:textColor="#000"
+                android:lines="1"
+                android:ellipsize="end"
+                android:textSize="16sp"
+                android:layout_gravity="top"
+                android:paddingLeft="15dp"/>
+
+
+            <TextView
+                android:id="@+id/tv_friend_detail_userid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="ID:alimzhan"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#fff"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="性别："
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/tv_friend_detail_sex"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:text="男"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_send_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/send_message_btn"
+        android:text="发消息"/>
+
+    <Button
+        android:id="@+id/btn_delete_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/delete_friend_btn"
+        android:text="发消息"/>
+
+
+
+</LinearLayout>
