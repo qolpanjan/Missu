@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.missu.Activitys.FriendDetailActivity;
@@ -64,6 +65,22 @@ public class FriendListFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.friendlist_fragment,container,false);
+        LinearLayout question_item = (LinearLayout) view.findViewById(R.id.lo_friendlist_question);
+        question_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击申请栏
+            }
+        });
+        LinearLayout group_chat = (LinearLayout)view.findViewById(R.id.lo_friendlist_groupchat);
+        group_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击群聊栏
+
+            }
+        });
+
         img_investment = (ImageView) view.findViewById(R.id.img_investment);
         new QBadgeView(getContext()).bindTarget(img_investment).setBadgeNumber(2).setGravityOffset(-3,true);
         friendListView = (ListView) view.findViewById(R.id.lv_friendlist);

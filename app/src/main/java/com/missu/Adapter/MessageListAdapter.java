@@ -1,9 +1,7 @@
 package com.missu.Adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
@@ -15,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -47,7 +46,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
             view = LayoutInflater.from(getContext()).inflate(resourceId,null);
             viewHoldr = new ViewHoldr();
             viewHoldr.leftLayout = (LinearLayout) view.findViewById(R.id.lo_left_message);
-            viewHoldr.rightLayout = (LinearLayout) view.findViewById(R.id.lo_right_message);
+            viewHoldr.rightLayout = (RelativeLayout) view.findViewById(R.id.lo_right_message);
             viewHoldr.receivedMsg = (TextView) view.findViewById(R.id.tv_message_received);
             viewHoldr.sendMsg = (TextView) view.findViewById(R.id.tv_message_send);
             viewHoldr.receivedImg = (ImageView) view.findViewById(R.id.img_profile_you);
@@ -85,7 +84,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
 
     class ViewHoldr{
         LinearLayout leftLayout;
-        LinearLayout rightLayout;
+        RelativeLayout rightLayout;
 
         TextView receivedMsg;
         TextView sendMsg;

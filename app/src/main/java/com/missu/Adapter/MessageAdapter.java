@@ -60,7 +60,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         viewHolder.tvLastChattime.setText(message.getMessg_time());
 
         String imgUrl = message.getMessg_from_profile();
-        Glide.with(getContext()).load(imgUrl).into(viewHolder.imageChatProfile);
+        Glide.with(getContext()).load(R.mipmap.icon).into(viewHolder.imageChatProfile);
 
         //viewHolder.imageChatProfile.setImageBitmap(message.getMessg_from_profile());
 

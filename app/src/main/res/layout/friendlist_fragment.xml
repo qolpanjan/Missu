@@ -10,17 +10,18 @@
         android:iconifiedByDefault="true"
         android:inputType="textCapWords"
         android:imeOptions="actionSearch"
-        android:queryHint=""
-        android:background="#eee">
+        android:queryHint="搜索"
+        android:background="@android:drawable/edit_text">
 
     </SearchView>
 
     <LinearLayout
+        android:id="@+id/lo_friendlist_question"
         android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="#fff"
+        android:background="@drawable/avater_layout"
         android:layout_height="60dp">
 
         <ImageView
@@ -46,11 +47,12 @@
         android:background="#eee"/>
 
     <LinearLayout
+        android:id="@+id/lo_friendlist_groupchat"
         android:paddingLeft="10dp"
         android:layout_width="match_parent"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="#fff"
+        android:background="@drawable/avater_layout"
         android:layout_height="60dp">
 
         <ImageView

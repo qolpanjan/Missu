@@ -1,15 +1,22 @@
 package com.missu.Activitys;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.missu.ChangeColorAndIcon;
 import com.missu.Fragment.AboutmeFragment;
@@ -116,6 +123,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add:
+                Intent intent = new Intent(getApplicationContext(),SeachFriendActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+        return true;
     }
 
     /**

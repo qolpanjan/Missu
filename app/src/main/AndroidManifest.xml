@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.missu">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,7 +39,18 @@
             android:name=".Activitys.ChangePassActivity"
             android:launchMode="singleTask"
             android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activitys.SearchResultActivity"
+            android:parentActivityName=".Activitys.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activitys.SeachFriendActivity"
+                android:parentActivityName=".Activitys.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>
