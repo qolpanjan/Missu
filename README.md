@@ -1,27 +1,35 @@
 # Missu
 一个带翻译功能的即时通讯安卓应用
 _____________________________
-
+<h2>软件界面截图</h2>
 
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/1.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/2.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/1-2.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/1-3.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/2-1.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3-1.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3-2.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3-3.png)
 
 
 <h3>数据库</h3>
 <h5>整个项目设计了三个数据库类</h5>
 <h6>1.User表：</h6>
-    * 所有注册本应用的用户存在本表
-    * 并且每次新注册和搜索朋友的时候都会从本表里搜索
-    * 本表将会存储在服务器
-    * 本地只存储在本机登录过的用户
+    · 所有注册本应用的用户存在本表
+    · 并且每次新注册和搜索朋友的时候都会从本表里搜索
+    · 本表将会存储在服务器
+    · 本地只存储在本机登录过的用户
 <h6>2.Friend表：</h6>
-    * 本表保存每个用户的通讯录
-    * 和User表一对一关系
-    * 本表也会同步在服务器
+    · 本表保存每个用户的通讯录
+    · 和User表一对一关系
+    · 本表也会同步在服务器
 <h6>3.Message表：</h6>
-    * 本表保存用户的聊天记录
-    * 不同步到服务器，本地删除就消息
-    * 和User表一对多关系
-    * 和Friend表一对一关系
+    · 本表保存用户的聊天记录
+    · 不同步到服务器，本地删除就消息
+    · 和User表一对多关系
+    · 和Friend表一对一关系
 <hr>
 
 <h3>适配器</h3>
