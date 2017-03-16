@@ -14,8 +14,8 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class Users {
-    @Id
-    private long id;
+    @Id(autoincrement = true)
+    private Long id;
     @Property
     private String user_name;
     @Property
@@ -64,14 +64,14 @@ public class Users {
     public void setUser_name(String user_name) {
         this.user_name = user_name;
     }
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    @Generated(hash = 1809545191)
-    public Users(long id, String user_name, String user_password,
+    @Generated(hash = 502550890)
+    public Users(Long id, String user_name, String user_password,
             String user_nickname, String user_sex, String user_profile,
             int unread_message) {
         this.id = id;
