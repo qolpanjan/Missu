@@ -17,6 +17,7 @@ public class MyApplication extends Application {
     private DaoSession mDaoSession;
     public static MyApplication instances;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -42,4 +43,5 @@ public class MyApplication extends Application {
     public SQLiteDatabase getDB(){
         return mHelper.getWritableDatabase();
     }
+
 }
