@@ -1,23 +1,19 @@
 package com.missu.Activitys;
 
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.anye.greendao.gen.DaoSession;
 import com.anye.greendao.gen.UsersDao;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.Users;
 import com.missu.R;
-
-import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
@@ -31,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         initView();
     }
 
@@ -46,24 +43,33 @@ public class LoginActivity extends AppCompatActivity {
                 user_name = login_user.getText().toString();
                 user_pass = login_password.getText().toString();
                 UsersDao usersDao = MyApplication.getInstances().getDaoSession().getUsersDao();
-                   List<Users> users = usersDao.loadAll();
-                        if (users.get(0).getUser_name().equals(user_name)){
-                            if (users.get(0).getUser_password().equals(user_pass)){
-                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                                Toast.makeText(LoginActivity.this,"恭喜你，登录成功！",Toast.LENGTH_SHORT).show();
+                   List<Users> users = usersDao.loadAll();//获取User表的所有数据
+                    for (int i=0;i<users.size();i++) {//遍历从数据库表获取的所有数据
+                        if (users.get(i).getUser_name().equals(user_name)){//如果找到用户输入的ID
+                        //if (users.get(0).getUser_name().equals(user_name)) {
+                            if (users.get(i).getUser_password().equals(user_pass)) {//就会查找对应的密码，密码正确就会跳转
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                /**
+                                 * 用sharedPreferences实现应用程序记住用户登录状态
+                                 */
+                                SharedPreferences.Editor editor = getSharedPreferences("login",MODE_PRIVATE).edit();
+                                editor.putBoolean("login",true);
+                                editor.commit();
+                                Toast.makeText(LoginActivity.this, "恭喜你，登录成功！", Toast.LENGTH_SHORT).show();
                                 startActivity(intent);
                                 finish();
-                            }else {
-                                Toast.makeText(LoginActivity.this,"密码输入错误，请重新输入",Toast.LENGTH_SHORT).show();
+                            } else {//如果密码错误提示用户并且情况密码输入框
+                                Toast.makeText(LoginActivity.this, "密码输入错误，请重新输入", Toast.LENGTH_SHORT).show();
                                 login_password.setText("");
                             }
-                        }else {
-                            Toast.makeText(LoginActivity.this,"账户名不存在，请重新输入",Toast.LENGTH_SHORT).show();
-                            //login_user.setText("");
+                        } else {//如果所有用户中找不到用户名，提示用户用户名不存在并且情况用户名输入框和密码输入框
+                            Toast.makeText(LoginActivity.this, "账户名不存在，请重新输入", Toast.LENGTH_SHORT).show();
+                            login_user.setText("");
+                            login_password.setText("");
 
                         }
-
-                    Log.e("MainActivity",users.get(0).getUser_password());
+                    }
+                   // Log.e("MainActivity",users.get(0).getUser_password());
                    //Users users =  daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(user_name)).orderAsc(UsersDao.Properties.Id).build().unique();
 
                    /**
