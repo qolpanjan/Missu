@@ -9,11 +9,12 @@ _____________________________
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/1-2.png)
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/1-3.png)
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/2-1.png)
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/2-2.png)
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3-1.png)
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3-2.png)
 ![](https://github.com/qolpanjan/Missu/blob/master/raw/img/3-3.png)
 
-
+<hr>
 <h3>数据库</h3>
 <h5>整个项目设计了三个数据库类</h5>
 <h6>1.User表：</h6>
@@ -35,28 +36,28 @@ _____________________________
 <h3>适配器</h3>
 本项目目前使用了三个适配器
 <h6>1.MessageList Adapter：</h6>
-    * 主要适配Message表，处理用户聊天记录
-    * 将会输出两方聊天内容和头像
-<h6>2.Message Adapter：</h6>
-    * 主要适配正在聊天界面
-    * 显示存储在本地的用户的聊天记录
-    * 显示聊天朋友头像，最好进行的聊天内容以及事件
-    * 用微信红点的形式显示未读消息
+    * 主要适配Message表，处理用户聊天记录<br>
+    * 将会输出两方聊天内容和头像<br>
+<h6>2.Message Adapter：</h6><br>
+    * 主要适配正在聊天界面<br>
+    * 显示存储在本地的用户的聊天记录<br>
+    * 显示聊天朋友头像，最好进行的聊天内容以及事件<br>
+    * 用微信红点的形式显示未读消息<br>
 <h6>3.Friend Adapter:</h6>
-    * 主要适配通讯录
-    * 输出通讯录用户的基本资料
+    * 主要适配通讯录<br>
+    * 输出通讯录用户的基本资料<br>
 <hr>
 
 
 <h3>用到的框架</h3>
 为了节省事件本项目使用在Github网站开源的一下主流的安卓开源项目
 <h6>1.GreenDao：</h6>
-        * 目前最流行，最方便的ORM开源框架
-        * 本项目中主要用于处理数据库操作
-        * [框架地址](https://github.com/greenrobot/greenDAO")
+        * 目前最流行，最方便的ORM开源框架<br>
+        * 本项目中主要用于处理数据库操作<br>
+        * [框架地址](https://github.com/greenrobot/greenDAO")<br>
 
 <h6>2.Glide：</h6>
-        * 是目前为止最方便，最主流的开源图片缓存框架。
-        * 本项目中主要用于从服务器加载用户头像
-        * [框架地址](https://github.com/bumptech/glide)
+        * 是目前为止最方便，最主流的开源图片缓存框架。<br>
+        * 本项目中主要用于从服务器加载用户头像<br>
+        * [框架地址](https://github.com/bumptech/glide)<br>
 <hr>
