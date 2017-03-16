@@ -40,17 +40,26 @@
             android:launchMode="singleTask"
             android:parentActivityName=".Activitys.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activitys.SearchResultActivity"
+        <activity
+            android:name=".Activitys.SearchResultActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".Activitys.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activitys.SeachFriendActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activitys.SeachFriendActivity"
-                android:parentActivityName=".Activitys.MainActivity"
+            android:parentActivityName=".Activitys.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activitys.LoginActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Activitys.SignInActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activitys.WelcomeActivity"></activity>
     </application>
 
 </manifest>
