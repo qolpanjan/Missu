@@ -14,11 +14,7 @@
             android:name=".Activitys.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activitys.MessageListActivity"
@@ -59,7 +55,14 @@
             android:launchMode="singleTask"
             android:parentActivityName=".Activitys.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activitys.WelcomeActivity"></activity>
+        <activity android:name=".Activitys.WelcomeActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

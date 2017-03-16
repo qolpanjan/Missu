@@ -37,6 +37,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
         android:lines="1"
+        android:inputType="textPassword"
         android:drawableLeft="@mipmap/login"
         android:layout_marginStart="10dp"
         android:paddingLeft="10dp"
