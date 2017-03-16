@@ -1,7 +1,9 @@
 # Missu
 一个带翻译功能的即时通讯安卓应用
 _____________________________
-![](https://github.com/qolpanjan/Missu/raw/img/1.png)
+
+
+![](https://github.com/qolpanjan/Missu/blob/master/raw/img/1.png)
 
 
 <h3>数据库</h3>
