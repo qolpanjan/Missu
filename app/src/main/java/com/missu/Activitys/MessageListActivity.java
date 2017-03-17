@@ -21,7 +21,9 @@ import com.missu.Bean.Message;
 import com.missu.Fragment.ChatListFragment;
 import com.missu.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +42,7 @@ public class MessageListActivity extends AppCompatActivity {
     private Button msgSendBtn;
     private MessageListAdapter adapter;
     private List<Message> msgList = new ArrayList<>();
+    DaoSession daoSession;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,8 @@ public class MessageListActivity extends AppCompatActivity {
         setTitle(chattingfriendname);
         Resources rec= getResources();
         bmp1 = BitmapFactory.decodeResource(rec,R.mipmap.icon);
+        daoSession = MyApplication.getInstances().getDaoSession();
         initMsgs();
-        final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
         adapter = new MessageListAdapter(this,R.layout.message_item,msgList);
         inputMsg = (EditText)findViewById(R.id.et_messagelist);
         msgSendBtn = (Button)findViewById(R.id.btn_send_message);
@@ -63,13 +66,17 @@ public class MessageListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String content = inputMsg.getText().toString();
                 if (!"".equals(content)){
+                    SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ");
+                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                    String time = formatter.format(curDate);
 
-                    //daoSession.getMessageDao().insert();
-                    Message msg = new Message();
-                    msg.setMessg_content(content);
-                    msg.setMessg_type(TYPE_SEND);
-                    msg.setMessg_from_username("Alimzhan");
-                    msgList.add(msg);
+                    Message message = new Message(null,TYPE_SEND,time,content,"R.mipmap.icon",MainActivity.USERNAME,"",0);
+                    daoSession.getMessageDao().insert(message);
+//                    Message msg = new Message();
+//                    msg.setMessg_content(content);
+//                    msg.setMessg_type(TYPE_SEND);
+//                    msg.setMessg_from_username("Alimzhan");
+                    msgList.add(message);
                     adapter.notifyDataSetChanged();
                     MsgListView.setSelection(msgList.size());
                     inputMsg.setText("");
@@ -81,6 +88,12 @@ public class MessageListActivity extends AppCompatActivity {
 
 
     private void initMsgs() {
+
+        List<Message> messages = daoSession.getMessageDao().loadAll();
+        for (Message message:messages){
+            msgList.add(message);
+        }
+
      /*
         Message msg=new Message();
         msg.setMessg_type(TYPE_RECEIVED);
