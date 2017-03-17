@@ -5,18 +5,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".Adapter.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".Adapter.MyApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activitys.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".Activitys.MessageListActivity"
             android:launchMode="singleTask"
@@ -50,13 +48,14 @@
         <activity
             android:name=".Activitys.LoginActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activitys.SignInActivity"
             android:launchMode="singleTask"
             android:parentActivityName=".Activitys.LoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activitys.WelcomeActivity"
+        <activity
+            android:name=".Activitys.WelcomeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,6 +63,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activitys.SettingActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MainActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

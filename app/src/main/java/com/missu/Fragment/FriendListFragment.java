@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.anye.greendao.gen.DaoSession;
 import com.missu.Activitys.FriendDetailActivity;
 import com.missu.Adapter.FriendAdapter;
+import com.missu.Adapter.MyApplication;
 import com.missu.Bean.friend;
 import com.missu.R;
 
@@ -37,17 +39,23 @@ public class FriendListFragment extends Fragment{
     List<friend> FriendList;
     FriendAdapter adapter;
     public static final String USERID = "userid";
+    DaoSession daoSession;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        daoSession = MyApplication.getInstances().getDaoSession();
         FriendList = getFriend();
         adapter = new FriendAdapter(context,R.layout.friendlist_item,FriendList);
 
     }
 
     private List<friend> getFriend() {
-        List<friend> friends = new ArrayList<>();
+
+        List<friend> friends = daoSession.getFriendDao().loadAll();
+
+
+         /**
         for(int i=0;i<15;i++) {
             friend friend1 = new friend();
             Resources res = getResources();
@@ -57,6 +65,7 @@ public class FriendListFragment extends Fragment{
             friend1.setFriend_profile(bmp);
             friends.add(friend1);
         }
+          */
         return friends;
     }
 

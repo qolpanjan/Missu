@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.missu.Activitys.ChangePassActivity;
 import com.missu.Activitys.MainActivity;
 import com.missu.Activitys.MyAvaterActivity;
+import com.missu.Activitys.SettingActivity;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.Users;
 import com.missu.R;
@@ -172,7 +173,8 @@ public class AboutmeFragment extends Fragment {
         UserSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), SettingActivity.class);
+                startActivity(intent);
             }
         });
 

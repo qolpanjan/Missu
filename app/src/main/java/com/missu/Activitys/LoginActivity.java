@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "恭喜你，登录成功！", Toast.LENGTH_SHORT).show();
                                 startActivity(intent);
                                 finish();
+                                break;
                             } else {//如果密码错误提示用户并且情况密码输入框
                                 Toast.makeText(LoginActivity.this, "密码输入错误，请重新输入", Toast.LENGTH_SHORT).show();
                                 login_password.setText("");
