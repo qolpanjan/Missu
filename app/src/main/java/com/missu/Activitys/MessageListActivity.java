@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.anye.greendao.gen.DaoSession;
 import com.missu.Adapter.MessageListAdapter;
+import com.missu.Adapter.MyApplication;
 import com.missu.Bean.Message;
 import com.missu.Fragment.ChatListFragment;
 import com.missu.R;
@@ -49,6 +51,7 @@ public class MessageListActivity extends AppCompatActivity {
         Resources rec= getResources();
         bmp1 = BitmapFactory.decodeResource(rec,R.mipmap.icon);
         initMsgs();
+        final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
         adapter = new MessageListAdapter(this,R.layout.message_item,msgList);
         inputMsg = (EditText)findViewById(R.id.et_messagelist);
         msgSendBtn = (Button)findViewById(R.id.btn_send_message);
@@ -60,6 +63,8 @@ public class MessageListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String content = inputMsg.getText().toString();
                 if (!"".equals(content)){
+
+                    //daoSession.getMessageDao().insert();
                     Message msg = new Message();
                     msg.setMessg_content(content);
                     msg.setMessg_type(TYPE_SEND);

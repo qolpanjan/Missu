@@ -3,6 +3,7 @@ package com.missu.Activitys;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<Fragment> mTabs = new ArrayList<Fragment>();
     private FragmentPagerAdapter mAdapter;
     private List<ChangeColorAndIcon> mTabIndecator=new ArrayList<ChangeColorAndIcon>();
+    public static String USERNAME = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setOverFlowButtonAlways();
         //getActionBar().setDisplayShowHomeEnabled(false);
         //actionbar.setTitle("MissU");
+        SharedPreferences pref = getSharedPreferences("login",MODE_PRIVATE);
+        USERNAME = pref.getString("name",null);
+
+
         initView();
         initDatas();
         mViewpager.setAdapter(mAdapter);

@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                                  */
                                 SharedPreferences.Editor editor = getSharedPreferences("login",MODE_PRIVATE).edit();
                                 editor.putBoolean("login",true);
+                                editor.putString("name",user_name);
                                 editor.commit();
                                 Toast.makeText(LoginActivity.this, "恭喜你，登录成功！", Toast.LENGTH_SHORT).show();
                                 startActivity(intent);

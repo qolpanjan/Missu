@@ -16,6 +16,7 @@
         android:layout_marginTop="10dp">
 
         <com.missu.CreatedUi.RoundAngleImageView
+            android:id="@+id/img_my_avater"
             android:layout_marginLeft="10dp"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -23,6 +24,7 @@
 
 
         <TextView
+            android:id="@+id/tv_me_user_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="用户昵称"
@@ -47,15 +49,26 @@
 
 
         <TextView
-            android:layout_width="match_parent"
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text=" 用户ID"
+            android:text="  用户 ID"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:textColor="#000"
             android:textSize="16sp"
             android:drawableLeft="@android:drawable/ic_menu_myplaces"
             />
+
+        <TextView
+            android:id="@+id/tv_me_user_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:text="ID"/>
 
     </LinearLayout>
 
@@ -103,7 +116,8 @@
 
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text=" 用户昵称"
             android:layout_gravity="center_vertical"
@@ -112,6 +126,15 @@
             android:textSize="16sp"
             android:drawableLeft="@android:drawable/btn_star_big_on"
             />
+
+        <TextView
+            android:id="@+id/tv_me_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center_vertical"
+            android:text="昵称"
+            android:textSize="16sp"/>
 
     </LinearLayout>
     <View
@@ -130,7 +153,8 @@
 
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="  用户性别"
             android:layout_gravity="center_vertical"
@@ -139,6 +163,15 @@
             android:textSize="16sp"
             android:drawableLeft="@mipmap/sex"
             />
+
+        <TextView
+            android:id="@+id/tv_me_sex"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="男"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
