@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.anye.greendao.gen.DaoSession;
+import com.anye.greendao.gen.UsersDao;
 import com.missu.Activitys.FriendDetailActivity;
+import com.missu.Activitys.MainActivity;
 import com.missu.Adapter.FriendAdapter;
 import com.missu.Adapter.MyApplication;
+import com.missu.Bean.Users;
 import com.missu.Bean.friend;
 import com.missu.R;
 
@@ -55,17 +59,18 @@ public class FriendListFragment extends Fragment{
         List<friend> friends = daoSession.getFriendDao().loadAll();
 
 
-         /**
-        for(int i=0;i<15;i++) {
+        /**
+        for(int i=0;i<5;i++) {
             friend friend1 = new friend();
             Resources res = getResources();
             //Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.icon);
             friend1.setFriend_nickname("超哥");
             String bmp = "R.mipmap.icon";
             friend1.setFriend_profile(bmp);
-            friends.add(friend1);
+            daoSession.getFriendDao().insert(friend1);
         }
-          */
+        */
+
         return friends;
     }
 
@@ -91,7 +96,13 @@ public class FriendListFragment extends Fragment{
         });
 
         img_investment = (ImageView) view.findViewById(R.id.img_investment);
-        new QBadgeView(getContext()).bindTarget(img_investment).setBadgeNumber(2).setGravityOffset(-3,true);
+        //通知与申请的红点
+
+
+        new QBadgeView(getContext()).bindTarget(img_investment).setBadgeNumber(MainActivity.UNREADMESSAGE).setGravityOffset(-3,true);
+
+
+
         friendListView = (ListView) view.findViewById(R.id.lv_friendlist);
 
         friendListView.setAdapter(adapter);
@@ -99,8 +110,10 @@ public class FriendListFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 friend mfriend =FriendList.get(position);
+
+
                 Intent intent = new Intent(getContext(), FriendDetailActivity.class);
-                intent.putExtra(USERID,mfriend.getId());
+                intent.putExtra(USERID,mfriend.getId()+"");
                 startActivity(intent);
             }
         });

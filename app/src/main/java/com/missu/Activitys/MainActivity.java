@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +18,10 @@ import android.view.ViewConfiguration;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.anye.greendao.gen.DaoSession;
+import com.anye.greendao.gen.UsersDao;
+import com.missu.Adapter.MyApplication;
+import com.missu.Bean.Users;
 import com.missu.ChangeColorAndIcon;
 import com.missu.Fragment.AboutmeFragment;
 import com.missu.Fragment.ChatListFragment;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentPagerAdapter mAdapter;
     private List<ChangeColorAndIcon> mTabIndecator=new ArrayList<ChangeColorAndIcon>();
     public static String USERNAME = "";
+    public static int UNREADMESSAGE = 0;
+    public static int MESSAGE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //getActionBar().setDisplayShowHomeEnabled(false);
         //actionbar.setTitle("MissU");
         SharedPreferences pref = getSharedPreferences("login",MODE_PRIVATE);
+        if(pref.getString("name",null).equals("")||pref.getString("name",null)==null){
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
+        }
         USERNAME = pref.getString("name",null);
 
 
@@ -56,6 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initDatas();
         mViewpager.setAdapter(mAdapter);
         initEvent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DaoSession daoSession = MyApplication.getInstances().getDaoSession();
+        Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(USERNAME)).unique();
+        UNREADMESSAGE = users.getUnread_message();
     }
 
     /**
@@ -95,9 +112,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * 设置消息提示数目红点
          *
          */
-
+        DaoSession daoSession = MyApplication.getInstances().getDaoSession();
+        Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(USERNAME)).unique();
         new QBadgeView(MainActivity.this).bindTarget(one).setBadgeNumber(3).setGravityOffset(98,0,true);
-        new QBadgeView(MainActivity.this).bindTarget(two).setBadgeNumber(1).setGravityOffset(98,0,true);
+        Log.e("MainActivity",users.getUnread_message()+"");
+        UNREADMESSAGE = users.getUnread_message();
+        new QBadgeView(MainActivity.this).bindTarget(two).setBadgeNumber(UNREADMESSAGE).setGravityOffset(98,0,true);
 
     }
 
