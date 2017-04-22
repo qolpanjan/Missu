@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,11 +68,17 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
 
             //viewHoldr.receivedImg.setImageBitmap(msg.getMessg_from_profile());
         }else {
-            viewHoldr.rightLayout.setVisibility(View.VISIBLE);
-            viewHoldr.leftLayout.setVisibility(View.GONE);
-            viewHoldr.sendMsg.setText(msg.getMessg_content());
+            try{
+                viewHoldr.rightLayout.setVisibility(View.VISIBLE);
+                viewHoldr.leftLayout.setVisibility(View.GONE);
+                viewHoldr.sendMsg.setText(msg.getMessg_content() +"\n"+ msg.getTranslate().getUighur());
+                Log.e("ADAPTER",viewHoldr.sendMsg.getText().toString());
+                viewHoldr.sendImg.setImageBitmap(MessageListActivity.bmp1);
 
-            viewHoldr.sendImg.setImageBitmap(MessageListActivity.bmp1);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
         return view;
     }

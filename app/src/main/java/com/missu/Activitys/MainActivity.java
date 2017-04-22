@@ -114,10 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         DaoSession daoSession = MyApplication.getInstances().getDaoSession();
         Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(USERNAME)).unique();
-        new QBadgeView(MainActivity.this).bindTarget(one).setBadgeNumber(3).setGravityOffset(98,0,true);
+        new QBadgeView(MainActivity.this).bindTarget(one).setBadgeNumber(3).setGravityOffset(48,0,true);
         Log.e("MainActivity",users.getUnread_message()+"");
         UNREADMESSAGE = users.getUnread_message();
-        new QBadgeView(MainActivity.this).bindTarget(two).setBadgeNumber(UNREADMESSAGE).setGravityOffset(98,0,true);
+        new QBadgeView(MainActivity.this).bindTarget(two).setBadgeNumber(UNREADMESSAGE).setGravityOffset(48,0,true);
 
     }
 

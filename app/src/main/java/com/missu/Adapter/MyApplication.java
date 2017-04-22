@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.anye.greendao.gen.DaoMaster;
 import com.anye.greendao.gen.DaoSession;
 
+
 /**
  * Created by alimj on 2017/3/14.
  */
@@ -23,6 +24,7 @@ public class MyApplication extends Application {
         super.onCreate();
         instances = this;
         setDatabase();
+
     }
 
     public static MyApplication getInstances() {
