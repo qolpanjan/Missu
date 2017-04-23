@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.anye.greendao.gen.DaoSession;
 import com.google.gson.Gson;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.ContactInfoList;
 import com.missu.Bean.Friends;
 import com.missu.Bean.MessageBean;
 import com.missu.Bean.MessageType;
+import com.missu.Bean.Users;
 import com.missu.R;
 import com.missu.Utils.NetConnection;
 import com.missu.Utils.ThreadUtils;
@@ -97,11 +99,12 @@ public class LoadingActicity extends AppCompatActivity {
                             String avater = params[3];
                             String sex = params[4];
 
+                            DaoSession daoSession = app.getDaoSession();
+                            Users users =new Users(null,account,pwd,nick,sex,avater,0);
+                            daoSession.getUsersDao().insert(users);
+                            Log.e("USERINSET","SUCCES");
                             app.setMyAccount(account);
-                            app.setPassword(pwd);
-                            app.setNickName(nick);
-                            app.setMyAvater(avater);
-                            app.setSex(sex);
+
 
                             progressDialog.dismiss();
                             Intent intent = new Intent();
@@ -109,7 +112,6 @@ public class LoadingActicity extends AppCompatActivity {
                             intent.putExtra("account", USERNAME);
                             startActivity(intent);
                             finish();
-
 
                             break;
                         }

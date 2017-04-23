@@ -27,7 +27,7 @@ public class SignInActivity extends AppCompatActivity {
 
     EditText sign_user,sign_password,sign_password_confirm,sign_nickname;
     Button sign_in;
-    String sex = "男";
+    String sex = "true";//true为男生
     MyApplication app;
 
     /**
@@ -48,7 +48,6 @@ public class SignInActivity extends AppCompatActivity {
                         return;
                     }else {
                         Log.e("SHIBAI",msg.getType());
-                        System.out.println(msg.getType());
                         Toast.makeText(SignInActivity.this,"注册失败，请检查网络！",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -84,10 +83,10 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (checkedId == R.id.rbt_sex_man){
-                    sex = "man";
+                    sex = "true";
                 }
                 if (checkedId == R.id.rbt_sex_woman){
-                    sex = "woman";
+                    sex = "boolean";
                 }
             }
         });

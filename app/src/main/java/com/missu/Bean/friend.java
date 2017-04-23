@@ -24,6 +24,8 @@ public class friend {
     private String friend_sex;
     @Property
     private String friend_profile;
+
+
     public String getFriend_profile() {
         return this.friend_profile;
     }

@@ -29,8 +29,12 @@ import com.missu.Activitys.MyAvaterActivity;
 import com.missu.Activitys.SettingActivity;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.MessageBean;
+import com.missu.Bean.MessageType;
 import com.missu.Bean.Users;
 import com.missu.R;
+import com.missu.Utils.Mytime;
+import com.missu.Utils.NetConnection;
+import com.missu.Utils.ThreadUtils;
 
 
 /**
@@ -42,17 +46,18 @@ public class AboutmeFragment extends Fragment {
     public static final String MYAVATERURL = "myavater";
     public static final String MYID = "mineid";
     TextView user_name,user_nickname,user_sex;
+    String sex= "男";//
 
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.me_fragment,container,false);
-        MyApplication app = MyApplication.getInstances();
-        final Users users = new Users((long)1,app.getMyAccount(),app.getPassword(),app.getNickName(),app.getSex(),app.getMyAvater(),0);
+        //MyApplication app = MyApplication.getInstances();
+        //final Users users = new Users((long)1,app.getMyAccount(),app.getPassword(),app.getNickName(),app.getSex(),app.getMyAvater(),0);
 
-       // final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        //final Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).build().unique();
+        final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
+        final Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).build().unique();
 
         //用户头像
         ImageView myAvater = (ImageView) view.findViewById(R.id.img_my_avater);
@@ -67,11 +72,16 @@ public class AboutmeFragment extends Fragment {
         TextView user_id = (TextView)view.findViewById(R.id.tv_me_user_id);
         user_id.setText(users.getUser_name());
         user_sex = (TextView)view.findViewById(R.id.tv_me_sex);
-        user_sex.setText(users.getUser_sex());
+        sex = users.getUser_sex();
+        if (sex.equals("true")){
+            user_sex.setText("男");
+        }else{
+            user_sex.setText("女");
+        }
 
 
         if (users.getUser_profile() != null && !users.getUser_profile().equals("")) {
-                Glide.with(getContext()).load(users.getUser_profile()).into(myAvater);
+                Glide.with(getContext()).load(users.getUser_profile()).placeholder(R.mipmap.icon).into(myAvater);
         }
         LinearLayout avater_layout= (LinearLayout) view.findViewById(R.id.lo_me_avater);
         avater_layout.setOnClickListener(new View.OnClickListener() {
@@ -111,17 +121,25 @@ public class AboutmeFragment extends Fragment {
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String newNickName = et.getText().toString().trim();
+                        final String newNickName = et.getText().toString().trim();
                         if (newNickName.equals("")) {
                             Toast.makeText(getContext(), "搜索内容不能为空！" + et, Toast.LENGTH_LONG).show();
                         }else {
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),newNickName,users.getUser_sex(),users.getUser_profile(),users.getUnread_message());
                             //daoSession.getUsersDao().update(users1);
-                            MessageBean messageBean = new MessageBean();
+                            final MessageBean messageBean = new MessageBean();
 
                             //MyApplication.getInstances().getMyConn().sendMessage();
                             user_nickname.setText(newNickName);
-                            user_name.setText(newNickName);
+                            //user_name.setText(newNickName);
+                            ThreadUtils.runInSubThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String content = user_name.getText().toString()+"#"+ users.getUser_password()+"#"+newNickName+"#"+users.getUser_profile()+"#"+users.getUser_sex();
+                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+
+                                }
+                            });
                             Toast.makeText(getContext(), "昵称修改成功！", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -188,6 +206,16 @@ public class AboutmeFragment extends Fragment {
 
 
         return view;
+    }
+
+
+
+    void SendMsg(MessageBean msg){
+        MyApplication app = MyApplication.getInstances();
+        NetConnection conn = app.getMyConn();
+        if (conn==null){
+
+        }
     }
 
 

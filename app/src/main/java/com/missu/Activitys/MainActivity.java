@@ -67,14 +67,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setOverFlowButtonAlways();
         //getActionBar().setDisplayShowHomeEnabled(false);
         //actionbar.setTitle("MissU");
+        NetConnection conn;
+        conn = MyApplication.getInstances().getMyConn();
+        if (conn==null){
+            conn = new NetConnection("10.22.131.23", 8090);// Socket
+            MyApplication app = (MyApplication) getApplication();
+            // 保存一个长连接
+            app.setMyConn(conn);
+            // 保存好友列表的json串
+            try {
+                conn.connect();// 建立连接
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
+        }
         SharedPreferences pref = getSharedPreferences("login", MODE_PRIVATE);
         if (pref.getString("name", null).equals("") || pref.getString("name", null) == null) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
+        }else{
+            USERNAME = pref.getString("name",null);
         }
         Intent intent = getIntent();
-        USERNAME = intent.getStringExtra("account");
+
         //Log.e("USErNAME", USERNAME);
 
 

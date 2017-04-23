@@ -20,19 +20,11 @@ public class MyApplication extends Application {
     private DaoSession mDaoSession;
     public static MyApplication instances;
 
-    public ContactInfoList getList() {
-        return list;
-    }
-
-    public void setList(ContactInfoList list) {
-        this.list = list;
-    }
-
     /**
      * Soccket通讯
      */
 
-    private ContactInfoList list;
+
 
     private NetConnection myConn;// 长连接
 

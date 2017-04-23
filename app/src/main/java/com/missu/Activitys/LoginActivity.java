@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.anye.greendao.gen.DaoSession;
 import com.anye.greendao.gen.UsersDao;
 import com.google.gson.Gson;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.ContactInfoList;
+import com.missu.Bean.Friends;
 import com.missu.Bean.MessageBean;
 import com.missu.Bean.MessageType;
 import com.missu.Bean.Users;
@@ -205,9 +207,16 @@ public class LoginActivity extends AppCompatActivity {
                                         // app.setBuddyListJson(msg.getContent());
                                         // 保存当前登录用户的账号
                                         app.setMyAccount(user_name);
-                                        app.setPassword(user_pass);
+                                        //app.setPassword(user_pass);
                                         Gson gson = new Gson();
-                                        app.setList(gson.fromJson(msg.getContent(), ContactInfoList.class));
+                                        ContactInfoList contactInfoList = gson.fromJson(msg.getContent(), ContactInfoList.class);
+                                        DaoSession daoSession = app.getDaoSession();
+                                        for (Friends mylist:contactInfoList.buddyList) {
+                                            Friends friends = new Friends(user_name,mylist.getNick(),mylist.getSex(),mylist.getAvatar(),mylist.getBelongTo());
+                                            daoSession.getFriendsDao().insert(friends);
+                                            Log.e("FRIENDS","SUCCES");
+                                        }
+
                                         SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
                                         editor.putBoolean("login", true);
                                         editor.putString("name", user_name);

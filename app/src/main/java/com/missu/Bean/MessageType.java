@@ -18,4 +18,5 @@ public class MessageType {
     public static final String MSG_TYPE_GET_BUDDY_SUCCES= "getbuddysucces";//获取通讯录成功
     public static final String MSG_TYPE_LOGIN_SUCCESS = "loginsuccess";//
     public static final String MSG_TYPE_GETUSER_SUCCESS = "getusersuccess";//获取用户参数成功
+    public static final String MSG_TYPE_CHANGE_USER = "changeuser";// 更改用户信息
 }

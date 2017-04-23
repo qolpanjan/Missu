@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.anye.greendao.gen.TranslateDao;
+import com.anye.greendao.gen.UsersDao;
+import com.missu.Adapter.MyApplication;
+import com.missu.Bean.Users;
 import com.missu.R;
 
 public class SettingActivity extends AppCompatActivity {
@@ -23,6 +27,9 @@ public class SettingActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = getSharedPreferences("login",MODE_PRIVATE).edit();
                 editor.clear();
                 editor.commit();
+
+                Users users =MyApplication.getInstances().getDaoSession().getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).unique();
+                MyApplication.getInstances().getDaoSession().getUsersDao().delete(users);
                 Intent intent = new Intent(SettingActivity.this,WelcomeActivity.class);
                 startActivity(intent);
                 finish();

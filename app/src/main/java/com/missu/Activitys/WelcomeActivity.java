@@ -33,8 +33,7 @@ public class WelcomeActivity extends Activity {
         public void handleMessage(Message msg) {
             SharedPreferences pref = getSharedPreferences("login",MODE_PRIVATE);
             boolean isLogin = pref.getBoolean("login",false);
-
-            isLogin =false;
+            //isLogin = false;
             /**
              * 通过SharedPreference获取用户登录状态，从而动态决定要跳转到的页面
              */

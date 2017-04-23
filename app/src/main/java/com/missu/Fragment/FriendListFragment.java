@@ -19,15 +19,20 @@ import android.widget.ListView;
 
 import com.anye.greendao.gen.DaoSession;
 import com.anye.greendao.gen.UsersDao;
+import com.google.gson.Gson;
 import com.missu.Activitys.FriendDetailActivity;
 import com.missu.Activitys.MainActivity;
 import com.missu.Adapter.FriendAdapter;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.ContactInfoList;
 import com.missu.Bean.Friends;
+import com.missu.Bean.MessageBean;
+import com.missu.Bean.MessageType;
 import com.missu.Bean.Users;
 import com.missu.Bean.friend;
 import com.missu.R;
+import com.missu.Utils.NetConnection;
+import com.missu.Utils.ThreadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,21 +62,15 @@ public class FriendListFragment extends Fragment{
     }
 
     private List<Friends> getFriend() {
+        List<Friends> friends = new ArrayList<>();
 
-        ContactInfoList friends = MyApplication.getInstances().getList();
-        List<Friends> list = null;
         try{
-
-           list = new ArrayList<>();
-           if (friends!=null){
-               list.addAll(friends.buddyList);
-           }
-
+            friends = MyApplication.getInstances().getDaoSession().getFriendsDao().loadAll();
        }catch (Exception e){
            e.printStackTrace();
        }
 
-
+        return friends;
         /**
         for(int i=0;i<5;i++) {
             friend friend1 = new friend();
@@ -84,7 +83,7 @@ public class FriendListFragment extends Fragment{
         }
         */
 
-        return list;
+
     }
 
     @Nullable
