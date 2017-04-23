@@ -36,6 +36,8 @@ import com.missu.Utils.Mytime;
 import com.missu.Utils.NetConnection;
 import com.missu.Utils.ThreadUtils;
 
+import java.io.IOException;
+
 
 /**
  * Created by alimj on 2017/3/8.
@@ -45,7 +47,7 @@ public class AboutmeFragment extends Fragment {
 
     public static final String MYAVATERURL = "myavater";
     public static final String MYID = "mineid";
-    TextView user_name,user_nickname,user_sex;
+    TextView user_name,user_nickname,user_sex,user_id;
     String sex= "男";//
 
 
@@ -69,7 +71,7 @@ public class AboutmeFragment extends Fragment {
         user_nickname.setText(users.getUser_nickname());
         user_name.setText(users.getUser_nickname());
         //用户ID
-        TextView user_id = (TextView)view.findViewById(R.id.tv_me_user_id);
+        user_id = (TextView)view.findViewById(R.id.tv_me_user_id);
         user_id.setText(users.getUser_name());
         user_sex = (TextView)view.findViewById(R.id.tv_me_sex);
         sex = users.getUser_sex();
@@ -93,7 +95,10 @@ public class AboutmeFragment extends Fragment {
             }
         });
 
-        LinearLayout UserId = (LinearLayout)view.findViewById(R.id.lo_me_user_id);
+        /**
+         * 点击账户
+         */
+        final LinearLayout UserId = (LinearLayout)view.findViewById(R.id.lo_me_user_id);
         UserId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +106,9 @@ public class AboutmeFragment extends Fragment {
             }
         });
 
+        /**
+         * 打开修改密码页面
+         */
         LinearLayout UserPassword = (LinearLayout)view.findViewById(R.id.lo_me_user_password);
         UserPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +118,11 @@ public class AboutmeFragment extends Fragment {
             }
         });
 
-        LinearLayout UserNickName = (LinearLayout)view.findViewById(R.id.lo_me_user_nickname);
+        /**
+         * 修改昵称
+         */
+
+        final LinearLayout UserNickName = (LinearLayout)view.findViewById(R.id.lo_me_user_nickname);
         UserNickName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,24 +135,31 @@ public class AboutmeFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         final String newNickName = et.getText().toString().trim();
                         if (newNickName.equals("")) {
-                            Toast.makeText(getContext(), "搜索内容不能为空！" + et, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "新昵称不能为空！" + et, Toast.LENGTH_LONG).show();
                         }else {
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),newNickName,users.getUser_sex(),users.getUser_profile(),users.getUnread_message());
-                            //daoSession.getUsersDao().update(users1);
+                            daoSession.getUsersDao().update(users1);
                             final MessageBean messageBean = new MessageBean();
 
                             //MyApplication.getInstances().getMyConn().sendMessage();
                             user_nickname.setText(newNickName);
-                            //user_name.setText(newNickName);
+                            user_name.setText(newNickName);
+
                             ThreadUtils.runInSubThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    String content = user_name.getText().toString()+"#"+ users.getUser_password()+"#"+newNickName+"#"+users.getUser_profile()+"#"+users.getUser_sex();
+                                    String content = user_id.getText().toString()+"#"+ users.getUser_password()+"#"+newNickName+"#"+users.getUser_profile()+"#"+users.getUser_sex();
                                     MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+                                    try {
+                                        SendMsg(messageBean1);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
 
                                 }
                             });
                             Toast.makeText(getContext(), "昵称修改成功！", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
                         }
                     }
                 });
@@ -149,6 +168,10 @@ public class AboutmeFragment extends Fragment {
             }
         });
 
+
+        /**
+         * 修改性别
+         */
         LinearLayout UserSex = (LinearLayout)view.findViewById(R.id.lo_me_user_sex);
         UserSex.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,8 +196,24 @@ public class AboutmeFragment extends Fragment {
                         if (newsex == R.id.tv_message_send){
                             //新性别为男
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),users.getUser_nickname(),"男",users.getUser_profile(),users.getUnread_message());
-                            //daoSession.getUsersDao().update(users1);
+                            daoSession.getUsersDao().update(users1);
                             user_sex.setText("男");
+
+                            ThreadUtils.runInSubThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String content = user_id.getText().toString()+"#"+ users.getUser_password()+"#"+user_nickname.getText().toString()+"#"+users.getUser_profile()+"#"+"true";
+                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+                                    try {
+                                        SendMsg(messageBean1);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
+
+
                             Toast.makeText(getContext(), "性别修改成功！", Toast.LENGTH_LONG).show();
 
                         }
@@ -183,6 +222,19 @@ public class AboutmeFragment extends Fragment {
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),users.getUser_nickname(),"女",users.getUser_profile(),users.getUnread_message());
                             //daoSession.getUsersDao().update(users1);
                             user_sex.setText("女");
+                            ThreadUtils.runInSubThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String content = user_name.getText().toString()+"#"+ users.getUser_password()+"#"+user_nickname.getText().toString()+"#"+users.getUser_profile()+"#"+"false";
+                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+                                    try {
+                                        SendMsg(messageBean1);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
                             Toast.makeText(getContext(), "性别修改成功！", Toast.LENGTH_LONG).show();
 
                         }
@@ -193,6 +245,9 @@ public class AboutmeFragment extends Fragment {
             }
         });
 
+        /**
+         * 打开设置界面
+         */
 
         LinearLayout UserSetting = (LinearLayout)view.findViewById(R.id.lo_user_setting);
         UserSetting.setOnClickListener(new View.OnClickListener() {
@@ -210,12 +265,32 @@ public class AboutmeFragment extends Fragment {
 
 
 
-    void SendMsg(MessageBean msg){
+    void SendMsg(final MessageBean msg) throws IOException {
         MyApplication app = MyApplication.getInstances();
         NetConnection conn = app.getMyConn();
         if (conn==null){
-
+            conn = new NetConnection(MyApplication.IP, 8090);
+            Log.e("NEWCONN","NEWCONN");
         }
+
+        conn.connect();
+        conn.sendMessage(msg);
+        conn.addOnMessageListener(new NetConnection.OnMessageListener() {
+            @Override
+            public void onReveive(MessageBean msgFrom) {
+
+                if (MessageType.MSG_TYPE_LOGIN_SUCCESS.equals(msgFrom.getType())){
+
+                }
+                if (MessageType.MSG_TYPE_FAILURE.equals(msgFrom.getType())){
+                    try {
+                        SendMsg(msg);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 

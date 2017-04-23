@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
             public void run() {
                 try {
-                    conn = new NetConnection("10.22.131.23", 8090);// Socket
+                    conn = new NetConnection(MyApplication.IP, 8090);// Socket
                     MyApplication app = (MyApplication) getApplication();
                     // 保存一个长连接
                     app.setMyConn(conn);

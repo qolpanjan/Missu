@@ -51,7 +51,9 @@ public class LoadingActicity extends AppCompatActivity {
 
                     MyApplication app = (MyApplication) getApplication();
                     NetConnection conn = app.getMyConn();
-                    //conn = new NetConnection("10.22.131.23", 8090);// Socket
+                    if (conn==null){
+                        conn = new NetConnection(MyApplication.IP, 8090); // Socket
+                    }
                     conn.connect();// 建立连接
                     // 建立连接之后，将监听器添加到连接里面
                     conn.addOnMessageListener(getUserlistener);
@@ -122,33 +124,4 @@ public class LoadingActicity extends AppCompatActivity {
         }
     };
 
-
-//    private NetConnection.OnMessageListener getBuddyListener = new NetConnection.OnMessageListener() {
-//
-//        @Override
-//        public void onReveive(final MessageBean msg) {
-//            ThreadUtils.runInSubThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (MessageType.MSG_TYPE_GET_BUDDY_SUCCES.equals(msg.getType())){
-//                        String content = msg.getContent();
-//                        Log.e("GETBUDDY",content);
-//                        List<Friends> buddyList = new ArrayList<Friends>();
-//                        Gson gson = new Gson();
-//                        ContactInfoList newList = gson.fromJson(content, ContactInfoList.class);// 新上线好友的集合
-//                        MyApplication app = (MyApplication) getApplication();
-//                        app.setList(newList);
-//                        friendloading = true;
-//
-//
-//                    }
-//
-//                }
-//            });
-//
-//
-//
-//
-//        }
-//    };
 }
