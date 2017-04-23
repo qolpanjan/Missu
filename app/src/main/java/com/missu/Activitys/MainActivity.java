@@ -1,6 +1,8 @@
 package com.missu.Activitys;
 
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,13 +23,21 @@ import android.widget.Toast;
 
 import com.anye.greendao.gen.DaoSession;
 import com.anye.greendao.gen.UsersDao;
+import com.google.gson.Gson;
 import com.missu.Adapter.MyApplication;
+import com.missu.Bean.ContactInfoList;
+import com.missu.Bean.Friends;
+import com.missu.Bean.MessageBean;
+import com.missu.Bean.MessageType;
 import com.missu.Bean.Users;
+import com.missu.Bean.friend;
 import com.missu.ChangeColorAndIcon;
 import com.missu.Fragment.AboutmeFragment;
 import com.missu.Fragment.ChatListFragment;
 import com.missu.Fragment.FriendListFragment;
 import com.missu.R;
+import com.missu.Utils.NetConnection;
+import com.missu.Utils.ThreadUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -35,15 +46,18 @@ import java.util.List;
 
 import q.rorbin.badgeview.QBadgeView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener {
 
     private ViewPager mViewpager;
     private List<Fragment> mTabs = new ArrayList<Fragment>();
     private FragmentPagerAdapter mAdapter;
-    private List<ChangeColorAndIcon> mTabIndecator=new ArrayList<ChangeColorAndIcon>();
+    private List<ChangeColorAndIcon> mTabIndecator = new ArrayList<ChangeColorAndIcon>();
     public static String USERNAME = "";
     public static int UNREADMESSAGE = 0;
     public static int MESSAGE = 0;
+    ProgressDialog progressDialog;
+    boolean userloading = false;
+    boolean friendloading =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,26 +67,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setOverFlowButtonAlways();
         //getActionBar().setDisplayShowHomeEnabled(false);
         //actionbar.setTitle("MissU");
-        SharedPreferences pref = getSharedPreferences("login",MODE_PRIVATE);
-        if(pref.getString("name",null).equals("")||pref.getString("name",null)==null){
-            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+
+        SharedPreferences pref = getSharedPreferences("login", MODE_PRIVATE);
+        if (pref.getString("name", null).equals("") || pref.getString("name", null) == null) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
-        USERNAME = pref.getString("name",null);
+        Intent intent = getIntent();
+        USERNAME = intent.getStringExtra("account");
+        //Log.e("USErNAME", USERNAME);
 
 
         initView();
         initDatas();
         mViewpager.setAdapter(mAdapter);
         initEvent();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(USERNAME)).unique();
-        UNREADMESSAGE = users.getUnread_message();
+
+        //Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(num)).unique();
+        //UNREADMESSAGE = users.getUnread_message();
     }
 
     /**
@@ -85,17 +104,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
 
 
-        mViewpager = (ViewPager)findViewById(R.id.viewpager);
+        mViewpager = (ViewPager) findViewById(R.id.viewpager);
 
-        ChangeColorAndIcon one = (ChangeColorAndIcon)findViewById(R.id.indicator_one);
+        ChangeColorAndIcon one = (ChangeColorAndIcon) findViewById(R.id.indicator_one);
         mTabIndecator.add(one);
-        ChangeColorAndIcon two = (ChangeColorAndIcon)findViewById(R.id.indicator_two);
+        ChangeColorAndIcon two = (ChangeColorAndIcon) findViewById(R.id.indicator_two);
         mTabIndecator.add(two);
 
         //ChangeColorAndIcon three = (ChangeColorAndIcon)findViewById(R.id.indicator_three);
         //mTabIndecator.add(three);
 
-        ChangeColorAndIcon four = (ChangeColorAndIcon)findViewById(R.id.indicator_four);
+        ChangeColorAndIcon four = (ChangeColorAndIcon) findViewById(R.id.indicator_four);
         mTabIndecator.add(four);
 
         /**
@@ -112,21 +131,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * 设置消息提示数目红点
          *
          */
-        DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(USERNAME)).unique();
-        new QBadgeView(MainActivity.this).bindTarget(one).setBadgeNumber(3).setGravityOffset(48,0,true);
-        Log.e("MainActivity",users.getUnread_message()+"");
-        UNREADMESSAGE = users.getUnread_message();
-        new QBadgeView(MainActivity.this).bindTarget(two).setBadgeNumber(UNREADMESSAGE).setGravityOffset(48,0,true);
+        //DaoSession daoSession = MyApplication.getInstances().getDaoSession();
+        //Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(USERNAME)).unique();
+        new QBadgeView(MainActivity.this).bindTarget(one).setBadgeNumber(3).setGravityOffset(48, 0, true);
+        //Log.e("MainActivity",users.getUnread_message()+"");
+        //UNREADMESSAGE = users.getUnread_message();
+        new QBadgeView(MainActivity.this).bindTarget(two).setBadgeNumber(UNREADMESSAGE).setGravityOffset(48, 0, true);
 
     }
 
     private void initDatas() {
-
         ChatListFragment chatListFragment = new ChatListFragment();
         mTabs.add(chatListFragment);
 
-        FriendListFragment friendListFragment=new FriendListFragment();
+        FriendListFragment friendListFragment = new FriendListFragment();
         mTabs.add(friendListFragment);
 
         AboutmeFragment aboutmeFragment = new AboutmeFragment();
@@ -147,15 +165,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(getApplicationContext(),SeachFriendActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SeachFriendActivity.class);
                 startActivity(intent);
                 break;
 
@@ -165,18 +183,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * 顶部菜单显示选项显示图标
+     *
      * @param menu
      * @return
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (menu!=null){
-            if (menu.getClass().getSimpleName().equals("MenuBuilder"))
-            {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
                 try {
-                    Method method=menu.getClass().getDeclaredMethod("setOptionalIconsVisible",Boolean.TYPE);
+                    Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
                     method.setAccessible(true);
-                    method.invoke(menu,true);
+                    method.invoke(menu, true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -188,24 +206,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-            resetOtherTabs();
-        switch (v.getId()){
+        resetOtherTabs();
+        switch (v.getId()) {
             case R.id.indicator_one:
                 mTabIndecator.get(0).setIconAlpha(1.0f);
-                mViewpager.setCurrentItem(0,false);
+                mViewpager.setCurrentItem(0, false);
                 break;
             case R.id.indicator_two:
                 mTabIndecator.get(1).setIconAlpha(1.0f);
-                mViewpager.setCurrentItem(1,false);
+                mViewpager.setCurrentItem(1, false);
                 break;
             //case R.id.indicator_three:
-                //mTabIndecator.get(2).setIconAlpha(1.0f);
-              //  mViewpager.setCurrentItem(2,false);
-               // break;
+            //mTabIndecator.get(2).setIconAlpha(1.0f);
+            //  mViewpager.setCurrentItem(2,false);
+            // break;
 
             case R.id.indicator_four:
                 mTabIndecator.get(2).setIconAlpha(1.0f);
-                mViewpager.setCurrentItem(3,false);
+                mViewpager.setCurrentItem(3, false);
                 break;
         }
     }
@@ -214,17 +232,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
      */
     private void resetOtherTabs() {
-        for (int i=0;i<mTabIndecator.size();i++){
+        for (int i = 0; i < mTabIndecator.size(); i++) {
             mTabIndecator.get(i).setIconAlpha(0);
         }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (positionOffset>0){
-            ChangeColorAndIcon left= mTabIndecator.get(position);
-            ChangeColorAndIcon right=mTabIndecator.get(position+1);
-            left.setIconAlpha(1-positionOffset);
+        if (positionOffset > 0) {
+            ChangeColorAndIcon left = mTabIndecator.get(position);
+            ChangeColorAndIcon right = mTabIndecator.get(position + 1);
+            left.setIconAlpha(1 - positionOffset);
             right.setIconAlpha(positionOffset);
         }
     }
@@ -243,14 +261,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 显示顶部菜单
      */
-    private void setOverFlowButtonAlways()
-    {
+    private void setOverFlowButtonAlways() {
         try {
             ViewConfiguration config = ViewConfiguration.get(MainActivity.this);
 
             Field field = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
             field.setAccessible(true);
-            field.setBoolean(config,false);
+            field.setBoolean(config, false);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -260,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
 }
+
+
 

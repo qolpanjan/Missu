@@ -14,4 +14,8 @@ public class MessageType {
     public static final String MSG_TYPE_SUCCESS = "success";//成功
     public static final String MSG_TYPE_BUDDY_LIST = "buddylist";// 好友
     public static final String MSG_TYPE_FAILURE = "failure";// 失败
+    public static final String MSG_TYPE_GETUSER= "getuser";
+    public static final String MSG_TYPE_GET_BUDDY_SUCCES= "getbuddysucces";//获取通讯录成功
+    public static final String MSG_TYPE_LOGIN_SUCCESS = "loginsuccess";//
+    public static final String MSG_TYPE_GETUSER_SUCCESS = "getusersuccess";//获取用户参数成功
 }

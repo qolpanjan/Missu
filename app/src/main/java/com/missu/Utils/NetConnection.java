@@ -26,7 +26,7 @@ public class NetConnection {
     public boolean isWaiting;
 
     /**
-     * new出QQConnection对象的时候初始化IP地址和端口
+     * new出Connection对象的时候初始化IP地址和端口
      *
      * @param host
      * @param port
@@ -84,7 +84,7 @@ public class NetConnection {
     /**
      * 发送java对象消息
      *
-     * @param xml
+     * @param
      * @throws IOException
      */
     public void sendMessage(MessageBean msg) throws IOException {
@@ -109,7 +109,7 @@ public class NetConnection {
                     // 将消息转成Java对象
                     MessageBean msg = new MessageBean();
                     msg = (MessageBean) msg.fromXML(xml);
-                    System.out.println(msg.getContent());
+                    System.out.println("等待线程" + msg.getContent());
                     // 这里接收到消息，根据消息中保存的type字段来处理登录，获取联系人列表，登出等操作，将这一部分操作抽取出来一个接口，类似于按钮的点击事件那样，接收到消息就做操作
 					/*
 					 * 接收到消息之后，依次调用每个监听器的onReceive方法

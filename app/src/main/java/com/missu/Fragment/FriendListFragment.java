@@ -23,6 +23,8 @@ import com.missu.Activitys.FriendDetailActivity;
 import com.missu.Activitys.MainActivity;
 import com.missu.Adapter.FriendAdapter;
 import com.missu.Adapter.MyApplication;
+import com.missu.Bean.ContactInfoList;
+import com.missu.Bean.Friends;
 import com.missu.Bean.Users;
 import com.missu.Bean.friend;
 import com.missu.R;
@@ -40,7 +42,7 @@ public class FriendListFragment extends Fragment{
 
     ListView friendListView;
     ImageView img_investment;
-    List<friend> FriendList;
+    List<Friends> FriendList;
     FriendAdapter adapter;
     public static final String USERID = "userid";
     DaoSession daoSession;
@@ -54,9 +56,20 @@ public class FriendListFragment extends Fragment{
 
     }
 
-    private List<friend> getFriend() {
+    private List<Friends> getFriend() {
 
-        List<friend> friends = daoSession.getFriendDao().loadAll();
+        ContactInfoList friends = MyApplication.getInstances().getList();
+        List<Friends> list = null;
+        try{
+
+           list = new ArrayList<>();
+           if (friends!=null){
+               list.addAll(friends.buddyList);
+           }
+
+       }catch (Exception e){
+           e.printStackTrace();
+       }
 
 
         /**
@@ -71,7 +84,7 @@ public class FriendListFragment extends Fragment{
         }
         */
 
-        return friends;
+        return list;
     }
 
     @Nullable
@@ -109,11 +122,11 @@ public class FriendListFragment extends Fragment{
         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                friend mfriend =FriendList.get(position);
+                Friends mfriend =FriendList.get(position);
 
 
                 Intent intent = new Intent(getContext(), FriendDetailActivity.class);
-                intent.putExtra(USERID,mfriend.getId()+"");
+                intent.putExtra(USERID,mfriend.getAccount());
                 startActivity(intent);
             }
         });

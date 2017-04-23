@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.missu.Bean.Friends;
 import com.missu.Bean.Users;
 import com.missu.Bean.friend;
 import com.missu.R;
@@ -22,11 +23,13 @@ import java.util.List;
  * Created by alimj on 2017/3/8.
  */
 
-public class FriendAdapter extends ArrayAdapter<friend> {
+public class FriendAdapter extends ArrayAdapter<Friends> {
 
     private int ResourceID;
 
-    public FriendAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<friend> objects) {
+
+
+    public FriendAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Friends> objects) {
         super(context, resource, objects);
         ResourceID = resource;
     }
@@ -34,7 +37,7 @@ public class FriendAdapter extends ArrayAdapter<friend> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        friend Friend = getItem(position);
+        Friends Friend = getItem(position);
         View view;
         Viewholder viewholder;
         if (convertView==null){
@@ -48,9 +51,9 @@ public class FriendAdapter extends ArrayAdapter<friend> {
             viewholder = (Viewholder) view.getTag();
         }
 
-        viewholder.friend_nickname.setText(Friend.getFriend_nickname());
+        viewholder.friend_nickname.setText(Friend.getNick());
 
-        String imgUrl = Friend.getFriend_profile();
+        String imgUrl = Friend.getAvatar();
         Glide.with(getContext()).load("R.mipmap.icon").into(viewholder.friend_profile);
 
         //viewholder.friend_profile.setImageBitmap(Friend.getUser_profile());

@@ -28,6 +28,7 @@ import com.missu.Activitys.MainActivity;
 import com.missu.Activitys.MyAvaterActivity;
 import com.missu.Activitys.SettingActivity;
 import com.missu.Adapter.MyApplication;
+import com.missu.Bean.MessageBean;
 import com.missu.Bean.Users;
 import com.missu.R;
 
@@ -47,8 +48,11 @@ public class AboutmeFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.me_fragment,container,false);
-        final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        final Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).build().unique();
+        MyApplication app = MyApplication.getInstances();
+        final Users users = new Users((long)1,app.getMyAccount(),app.getPassword(),app.getNickName(),app.getSex(),app.getMyAvater(),0);
+
+       // final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
+        //final Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).build().unique();
 
         //用户头像
         ImageView myAvater = (ImageView) view.findViewById(R.id.img_my_avater);
@@ -112,7 +116,10 @@ public class AboutmeFragment extends Fragment {
                             Toast.makeText(getContext(), "搜索内容不能为空！" + et, Toast.LENGTH_LONG).show();
                         }else {
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),newNickName,users.getUser_sex(),users.getUser_profile(),users.getUnread_message());
-                            daoSession.getUsersDao().update(users1);
+                            //daoSession.getUsersDao().update(users1);
+                            MessageBean messageBean = new MessageBean();
+
+                            //MyApplication.getInstances().getMyConn().sendMessage();
                             user_nickname.setText(newNickName);
                             user_name.setText(newNickName);
                             Toast.makeText(getContext(), "昵称修改成功！", Toast.LENGTH_LONG).show();
@@ -148,7 +155,7 @@ public class AboutmeFragment extends Fragment {
                         if (newsex == R.id.tv_message_send){
                             //新性别为男
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),users.getUser_nickname(),"男",users.getUser_profile(),users.getUnread_message());
-                            daoSession.getUsersDao().update(users1);
+                            //daoSession.getUsersDao().update(users1);
                             user_sex.setText("男");
                             Toast.makeText(getContext(), "性别修改成功！", Toast.LENGTH_LONG).show();
 
@@ -156,7 +163,7 @@ public class AboutmeFragment extends Fragment {
                         if (newsex == R.id.tv_message_received){
                             //新性别为女
                             Users users1 = new Users(users.getId(),users.getUser_name(),users.getUser_password(),users.getUser_nickname(),"女",users.getUser_profile(),users.getUnread_message());
-                            daoSession.getUsersDao().update(users1);
+                            //daoSession.getUsersDao().update(users1);
                             user_sex.setText("女");
                             Toast.makeText(getContext(), "性别修改成功！", Toast.LENGTH_LONG).show();
 
