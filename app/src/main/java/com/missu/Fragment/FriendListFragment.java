@@ -122,8 +122,6 @@ public class FriendListFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friends mfriend =FriendList.get(position);
-
-
                 Intent intent = new Intent(getContext(), FriendDetailActivity.class);
                 intent.putExtra(USERID,mfriend.getAccount());
                 startActivity(intent);

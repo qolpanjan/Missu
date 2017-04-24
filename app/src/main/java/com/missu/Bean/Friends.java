@@ -16,8 +16,7 @@ public class Friends {
     private String belongTo ="";
 
     @Generated(hash = 2035630059)
-    public Friends(String account, String nick, String sex, String avatar,
-            String belongTo) {
+    public Friends(String account, String nick, String sex, String avatar, String belongTo) {
         this.account = account;
         this.nick = nick;
         this.sex = sex;

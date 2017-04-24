@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.anye.greendao.gen.DaoSession;
+import com.anye.greendao.gen.FriendsDao;
 import com.anye.greendao.gen.friendDao;
 import com.bumptech.glide.Glide;
 import com.missu.Adapter.MyApplication;
+import com.missu.Bean.Friends;
 import com.missu.Bean.friend;
 import com.missu.Fragment.FriendListFragment;
 import com.missu.R;
@@ -35,16 +37,17 @@ public class FriendDetailActivity extends AppCompatActivity {
         userId = intent.getStringExtra(FriendListFragment.USERID);
         Log.e("MainActivityName",userId);
         DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        friend friends =daoSession.getFriendDao().queryBuilder().where(friendDao.Properties.Id.eq(userId)).unique();
+        Friends friends =daoSession.getFriendsDao().queryBuilder().where(FriendsDao.Properties.Account.eq(userId)).unique();
 
         friend_profile = (ImageView)findViewById(R.id.img_friend_detail_profile);
-        Glide.with(getApplicationContext()).load(friends.getFriend_profile()).into(friend_profile);
+
+        Glide.with(getApplicationContext()).load(friends.getAvatar()).placeholder(R.mipmap.icon).fitCenter().into(friend_profile);
 
         friend_user_id = (TextView)findViewById(R.id.tv_friend_detail_userid);
-        friend_user_id.setText(friends.getFriend_name());
+        friend_user_id.setText(friends.getSex());
 
         friend_user_ninkname = (TextView)findViewById(R.id.tv_friend_detail_nickname);
-        friend_user_ninkname.setText(friends.getFriend_nickname());
+        friend_user_ninkname.setText(friends.getNick());
 
         send_message_btn = (Button)findViewById(R.id.btn_send_message);
         delete_friend_btn = (Button)findViewById(R.id.btn_delete_friend);

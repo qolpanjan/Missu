@@ -25,7 +25,12 @@ import com.missu.R;
 import com.missu.Utils.NetConnection;
 import com.missu.Utils.ThreadUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -208,14 +213,25 @@ public class LoginActivity extends AppCompatActivity {
                                         // 保存当前登录用户的账号
                                         app.setMyAccount(user_name);
                                         //app.setPassword(user_pass);
-                                        Gson gson = new Gson();
-                                        ContactInfoList contactInfoList = gson.fromJson(msg.getContent(), ContactInfoList.class);
-                                        DaoSession daoSession = app.getDaoSession();
-                                        for (Friends mylist:contactInfoList.buddyList) {
-                                            Friends friends = new Friends(user_name,mylist.getNick(),mylist.getSex(),mylist.getAvatar(),mylist.getBelongTo());
-                                            daoSession.getFriendsDao().insert(friends);
-                                            Log.e("FRIENDS","SUCCES");
+                                        //Gson gson = new Gson();
+                                        Log.e("MGS CONTENT",msg.getContent());
+                                       // ContactInfoList contactInfoList = gson.fromJson(msg.getContent(), ContactInfoList.class);
+                                        JSONArray jsonArray = null;
+                                        try{
+                                            JSONObject jsonObject = new JSONObject(msg.getContent());
+                                            jsonArray = jsonObject.getJSONArray("List");
+                                            for(int i=0;i<jsonArray.length();i++){
+                                                JSONObject mylist = jsonArray.getJSONObject(i);
+
+                                                DaoSession daoSession = app.getDaoSession();
+                                                Friends friends = new Friends(mylist.getString("account"),mylist.getString("nick"),mylist.getString("avatar"),mylist.getString("sex"),mylist.getString("belongTo"));
+                                                daoSession.getFriendsDao().insert(friends);
+                                                Log.e("FRIENDS","SUCCES"+friends.getNick());
+                                            }
+                                        }catch (JSONException e){
+                                            e.printStackTrace();
                                         }
+
 
                                         SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
                                         editor.putBoolean("login", true);
