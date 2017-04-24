@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 JSONObject mylist = jsonArray.getJSONObject(i);
 
                                                 DaoSession daoSession = app.getDaoSession();
-                                                Friends friends = new Friends(mylist.getString("account"),mylist.getString("nick"),mylist.getString("avatar"),mylist.getString("sex"),mylist.getString("belongTo"));
+                                                Friends friends = new Friends(Integer.parseInt(mylist.getString("id")),mylist.getString("account"),mylist.getString("nick"),mylist.getString("avatar"),mylist.getString("sex"));
                                                 daoSession.getFriendsDao().insert(friends);
                                                 Log.e("FRIENDS","SUCCES"+friends.getNick());
                                             }

@@ -9,19 +9,20 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class Friends {
+    private int id = 0;
     private String account;// 账号 QQ号
     private String nick = "";// 昵称
     private String sex="true";
     private String avatar="";
-    private String belongTo ="";
 
-    @Generated(hash = 2035630059)
-    public Friends(String account, String nick, String sex, String avatar, String belongTo) {
+
+    @Generated(hash = 219859861)
+    public Friends(int id, String account, String nick, String sex, String avatar) {
+        this.id = id;
         this.account = account;
         this.nick = nick;
         this.sex = sex;
         this.avatar = avatar;
-        this.belongTo = belongTo;
     }
 
     @Generated(hash = 823074882)
@@ -52,12 +53,12 @@ public class Friends {
         this.avatar = avatar;
     }
 
-    public String getBelongTo() {
-        return belongTo;
+    public int getBelongTo() {
+        return id;
     }
 
     public void setBelongTo(String belongTo) {
-        this.belongTo = belongTo;
+        this.id = Integer.getInteger(belongTo);
     }
 
 
@@ -68,6 +69,14 @@ public class Friends {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 

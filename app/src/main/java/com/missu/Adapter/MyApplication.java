@@ -19,7 +19,7 @@ public class MyApplication extends Application {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     public static MyApplication instances;
-    public static final String IP = "10.22.128.15";
+    public static final String IP = "10.22.128.57";
 
     /**
      * Soccket通讯

@@ -16,7 +16,6 @@ import java.util.List;
 public class ContactInfoAdapter extends ArrayAdapter<Friends> {
 
 	/**
-	 *传入上下文
 	 * 
 	 * @param context
 	 * @param objects

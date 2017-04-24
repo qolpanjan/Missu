@@ -54,7 +54,7 @@ public class FriendAdapter extends ArrayAdapter<Friends> {
         viewholder.friend_nickname.setText(Friend.getNick());
 
         String imgUrl = Friend.getAvatar();
-        Glide.with(getContext()).load("R.mipmap.icon").into(viewholder.friend_profile);
+        Glide.with(getContext()).load(imgUrl).placeholder(R.mipmap.icon).into(viewholder.friend_profile);
 
         //viewholder.friend_profile.setImageBitmap(Friend.getUser_profile());
         return view;
