@@ -68,10 +68,9 @@ public class MessageListActivity extends AppCompatActivity {
     public final String URL = "http://192.168.1.110/ttest.php?chinise=";
     OkHttpClient okHttpClient = new OkHttpClient();
 
-    public static final String TYPE_RECEIVED = "0";
-    public static final String TYPE_SEND = "1";
-    public static final String DBNAME = "missu.db";
     public static Bitmap bmp1;
+
+    MyApplication app;
 
     private ListView MsgListView;
     private EditText inputMsg;
@@ -91,6 +90,7 @@ public class MessageListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_list);
         MsgListView = (ListView)findViewById(R.id.lv_messagelist);
+        app = (MyApplication) getApplication();
 
         adapter = new MessageListAdapter(this,R.layout.message_item,msgList);
         bundle = savedInstanceState;
@@ -171,7 +171,7 @@ public class MessageListActivity extends AppCompatActivity {
                         public void run() {
 
 
-                            MyApplication app  = (MyApplication) getApplication();
+                            app  = (MyApplication) getApplication();
                             NetConnection conn = app.getMyConn();
                             try{
                                 if (conn !=null){
@@ -247,34 +247,6 @@ public class MessageListActivity extends AppCompatActivity {
 
     }
 
-    private NetConnection.OnMessageListener listener = new NetConnection.OnMessageListener() {
-
-        public void onReveive(final MessageBean msg) {
-            // 注意onReveive是子线程，更新界面一定要在主线程中
-            ThreadUtils.runInUiThread(new Runnable() {
-
-                public void run() {
-
-                    // 服务器返回回来的消息
-                    System.out.println(msg.getContent());
-                    if (MessageType.MSG_TYPE_CHAT_P2P.equals(msg.getType())) {
-                        msgList.add(msg);// 把消息加到消息集合中，这是最新的消息
-                        // 刷新消息
-                        if (adapter != null) {
-                            adapter.notifyDataSetChanged();
-                        }
-                        // 展示到最新发送的消息出
-                        if (msgList.size() > 0) {
-                            MsgListView.setSelection(msgList.size() - 1);
-                        }
-
-                    }
-
-                }
-            });
-
-        }
-    };
 
     /**
 

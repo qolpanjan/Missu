@@ -23,7 +23,6 @@ import com.missu.Bean.MessageType;
 import com.missu.R;
 import com.missu.Utils.MyService;
 import com.missu.Utils.NetConnection;
-import com.missu.Utils.SendMsgService;
 import com.missu.Utils.ThreadUtils;
 
 import org.json.JSONArray;

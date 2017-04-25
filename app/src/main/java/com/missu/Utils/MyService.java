@@ -26,6 +26,7 @@ public class MyService extends Service {
     NetConnection conn;
 
     private MyBinder myBinder = new MyBinder();
+    NetConnection.OnMessageListener listener;
 
     @Override
     public void onCreate() {
@@ -51,6 +52,11 @@ public class MyService extends Service {
         try {
             conn = new NetConnection(MyApplication.IP, 8090);// Socket
             MyApplication app = (MyApplication) getApplication();
+            if (listener!=null){
+                app.getMyConn().addOnMessageListener(listener);
+                Log.e("ADD SUCCE","HERE  ");
+            }
+
             // 保存一个长连接
             app.setMyConn(conn);
             // 保存好友列表的json串
@@ -66,7 +72,39 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG,"OnStartCommand");
+        listener = new NetConnection.OnMessageListener() {
 
+            @Override
+            public void onReveive(final MessageBean msg) {
+                ThreadUtils.runInUiThread(new Runnable() {
+
+                    public void run() {
+
+                        // 服务器返回回来的消息
+                        System.out.println(msg.getContent());
+                        if (MessageType.MSG_TYPE_CHAT_P2P.equals(msg.getType())) {
+                            //messages.add(msg);// 把消息加到消息集合中，这是最新的消息
+                            Intent intent = new Intent();
+                            intent.setClass(getBaseContext(),MessageListActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("msg", msg);
+                            intent.putExtras(bundle);
+
+                            PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(),0,intent,0);
+                            Notification notification = new Notification.Builder(getBaseContext())
+                                    .setAutoCancel(false)
+                                    .setContentTitle(msg.getFrom())
+                                    .setContentText(msg.getContent())
+                                    .setContentIntent(pendingIntent)
+                                    .setSmallIcon(R.mipmap.icon)
+                                    .build();
+                        }
+
+                    }
+                });
+            }
+
+        };
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -85,39 +123,7 @@ public class MyService extends Service {
 
         public void startDownload(){
             Log.e(TAG,"startDownload");
-            NetConnection.OnMessageListener listener = new NetConnection.OnMessageListener() {
 
-                @Override
-                public void onReveive(final MessageBean msg) {
-                    ThreadUtils.runInUiThread(new Runnable() {
-
-                        public void run() {
-
-                            // 服务器返回回来的消息
-                            System.out.println(msg.getContent());
-                            if (MessageType.MSG_TYPE_CHAT_P2P.equals(msg.getType())) {
-                                //messages.add(msg);// 把消息加到消息集合中，这是最新的消息
-                                Intent intent = new Intent();
-                                intent.setClass(getBaseContext(),MessageListActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("msg", msg);
-                                intent.putExtras(bundle);
-
-                                PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(),0,intent,0);
-                                Notification notification = new Notification.Builder(getBaseContext())
-                                        .setAutoCancel(false)
-                                        .setContentTitle(msg.getFrom())
-                                        .setContentText(msg.getContent())
-                                        .setContentIntent(pendingIntent)
-                                        .setSmallIcon(R.mipmap.icon)
-                                        .build();
-                            }
-
-                        }
-                    });
-                }
-
-            };
         }
 
 

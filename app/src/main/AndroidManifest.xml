@@ -77,9 +77,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Activitys.LoadingActicity"></activity>
 
-        <service
-            android:name=".Utils.SendMsgService">
-        </service>
         <service android:name=".Utils.MyService"/>
     </application>
 

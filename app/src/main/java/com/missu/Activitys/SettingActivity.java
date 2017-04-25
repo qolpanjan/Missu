@@ -7,12 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.anye.greendao.gen.TranslateDao;
 import com.anye.greendao.gen.UsersDao;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.Users;
 import com.missu.R;
-import com.missu.Utils.SendMsgService;
+import com.missu.Utils.MyService;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -31,7 +30,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 Users users =MyApplication.getInstances().getDaoSession().getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).unique();
                 MyApplication.getInstances().getDaoSession().getUsersDao().deleteAll();
-                Intent stopIntent = new Intent(SettingActivity.this, SendMsgService.class);
+                Intent stopIntent = new Intent(SettingActivity.this, MyService.class);
                 stopService(stopIntent);
                 Intent intent = new Intent(SettingActivity.this,WelcomeActivity.class);
                 startActivity(intent);

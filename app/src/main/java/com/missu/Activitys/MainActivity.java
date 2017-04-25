@@ -1,10 +1,8 @@
 package com.missu.Activitys;
 
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -14,34 +12,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.anye.greendao.gen.DaoSession;
-import com.anye.greendao.gen.UsersDao;
-import com.google.gson.Gson;
 import com.missu.Adapter.MyApplication;
-import com.missu.Bean.ContactInfoList;
-import com.missu.Bean.Friends;
-import com.missu.Bean.MessageBean;
-import com.missu.Bean.MessageType;
-import com.missu.Bean.Users;
-import com.missu.Bean.friend;
 import com.missu.ChangeColorAndIcon;
 import com.missu.Fragment.AboutmeFragment;
 import com.missu.Fragment.ChatListFragment;
 import com.missu.Fragment.FriendListFragment;
 import com.missu.R;
 import com.missu.Utils.NetConnection;
-import com.missu.Utils.SendMsgService;
-import com.missu.Utils.ThreadUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -62,22 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressDialog progressDialog;
     boolean userloading = false;
     boolean friendloading =false;
-    SendMsgService.MyBinder myBinder;
+
     MyApplication app;
 
 
-    private ServiceConnection connection =new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            myBinder = (SendMsgService.MyBinder) iBinder;
-            myBinder.SendMsg();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
