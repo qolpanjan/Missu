@@ -1,6 +1,7 @@
 package com.missu.Utils;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,5 +45,17 @@ public class Mytime {
     public static Long geTime(String dateString) throws ParseException {
         SimpleDateFormat formate = new SimpleDateFormat("MM-dd HH:mm:ss");
         return formate.parse(dateString).getTime();
+    }
+
+    /**
+     * String
+     * @param dateString
+     * @return
+     */
+    public static Date stringToDate(String dateString) {
+        ParsePosition position = new ParsePosition(0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date dateValue = simpleDateFormat.parse(dateString, position);
+        return dateValue;
     }
 }

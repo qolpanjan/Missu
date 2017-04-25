@@ -21,13 +21,21 @@ import android.widget.Toast;
 
 import com.anye.greendao.gen.DaoSession;
 import com.anye.greendao.gen.TranslateDao;
+import com.anye.greendao.gen.UsersDao;
 import com.google.gson.Gson;
 import com.missu.Adapter.MessageListAdapter;
 import com.missu.Adapter.MyApplication;
+import com.missu.Bean.Friends;
 import com.missu.Bean.Message;
+import com.missu.Bean.MessageBean;
+import com.missu.Bean.MessageType;
 import com.missu.Bean.Translate;
+import com.missu.Bean.Users;
 import com.missu.Fragment.ChatListFragment;
 import com.missu.R;
+import com.missu.Utils.Mytime;
+import com.missu.Utils.NetConnection;
+import com.missu.Utils.ThreadUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,6 +58,7 @@ import static com.missu.Fragment.ChatListFragment.CHATTINGFRIEND;
 import static java.security.AccessController.getContext;
 
 /**
+ * 详细聊天界面
  * Created by alimj on 2017/3/9.
  */
 
@@ -68,29 +77,64 @@ public class MessageListActivity extends AppCompatActivity {
     private EditText inputMsg;
     private Button msgSendBtn;
     private MessageListAdapter adapter;
-    private List<Message> msgList = new ArrayList<>();
+    private List<MessageBean> msgList = new ArrayList<>();
     Request.Builder builder = new Request.Builder();
     DaoSession daoSession;
     Bundle bundle;
+    String account = "";
+    String nick = "";
+    String avater = "";
     //你好
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_list);
+        MsgListView = (ListView)findViewById(R.id.lv_messagelist);
+
+        adapter = new MessageListAdapter(this,R.layout.message_item,msgList);
         bundle = savedInstanceState;
         Intent intent = getIntent();
-        String chattingfriendname = intent.getStringExtra(CHATTINGFRIEND);
-        setTitle(chattingfriendname);
+        MessageBean msg;
+
+        try{
+           msg  = (MessageBean) intent.getSerializableExtra("msg");
+            account = intent.getStringExtra("account");
+            nick = intent.getStringExtra("nick");
+            avater = intent.getStringExtra("avater");
+            if(msg!=null){
+                msgList.add(msg);
+            }
+
+            if (msgList.size() > 0) {
+                MsgListView.setSelection(msgList.size() - 1);
+            }
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
+
+        }catch (Exception e){
+
+        }
+
+
+         // 把消息加到消息集合中，这是最新的消息
+            // 刷新消息
+
+            // 展示到最新发送的消息出
+
+
+        setTitle("与"+nick+"聊天");
         Resources rec= getResources();
         bmp1 = BitmapFactory.decodeResource(rec,R.mipmap.icon);
+
         daoSession = MyApplication.getInstances().getDaoSession();
         initMsgs();
 
-        adapter = new MessageListAdapter(this,R.layout.message_item,msgList);
+
         inputMsg = (EditText)findViewById(R.id.et_messagelist);
         msgSendBtn = (Button)findViewById(R.id.btn_send_message);
-        MsgListView = (ListView)findViewById(R.id.lv_messagelist);
+
         MsgListView.setAdapter(adapter);
         MsgListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -116,15 +160,40 @@ public class MessageListActivity extends AppCompatActivity {
                     //Translate translate = new Translate(null,content,"This is trianslate");
                     //daoSession.getTranslateDao().insert(translate);
                     //Translate unique = daoSession.getTranslateDao().queryBuilder().where(TranslateDao.Properties.Chinise.eq(content)).unique();
+                    Users unique = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).unique();
+                    final MessageBean msgbean = new MessageBean(MessageType.MSG_TYPE_CHAT_P2P,MainActivity.USERNAME,account,content, Mytime.geTime(),unique.getUser_profile());
 
-                    Message message = new Message(null,TYPE_SEND,time,content,"R.mipmap.icon",MainActivity.USERNAME,"",null,0);
-                    daoSession.getMessageDao().insert(message);
+                    daoSession.getMessageBeanDao().insert(msgbean);
 
-//                    Message msg = new Message();
-//                    msg.setMessg_content(content);
-//                    msg.setMessg_type(TYPE_SEND);
-//                    msg.setMessg_from_username("Alimzhan");
-                    msgList.add(message);
+
+                    ThreadUtils.runInSubThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            MyApplication app  = (MyApplication) getApplication();
+                            NetConnection conn = app.getMyConn();
+                            try{
+                                if (conn !=null){
+                                    conn.connect();
+                                    conn.sendMessage(msgbean);
+                                    Log.e("Content",msgbean.getContent());
+                                }else{
+                                    conn = new NetConnection(MyApplication.IP,8090);
+                                    conn.connect();
+                                    conn.sendMessage(msgbean);
+                                    Log.e("Content+new",msgbean.getContent());
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                Log.e("Content+ERR",msgbean.getContent());
+                            }
+                        }
+                    });
+
+
+
+                    msgList.add(msgbean);
                     adapter.notifyDataSetChanged();
                     MsgListView.setSelection(msgList.size());
                     inputMsg.setText("");
@@ -142,15 +211,15 @@ public class MessageListActivity extends AppCompatActivity {
         String id = String.valueOf(info.id);
         switch (item.getItemId()) {
             case 0:
-                Message message = msgList.get(info.position);
-                getTranslate(message);
+                MessageBean message = msgList.get(info.position);
+                //getTranslate(message);
 
                 return true;
             case 1:
                 //System.out.println("删除"+info.id);
 
-                daoSession.getMessageDao().delete( msgList.get(info.position) );
-                daoSession.getTranslateDao().delete(msgList.get(info.position).getTranslate());
+                daoSession.getMessageBeanDao().delete( msgList.get(info.position) );
+                //daoSession.getTranslateDao().delete(msgList.get(info.position).getTranslate());
                 msgList.remove(info.position);
                 adapter.notifyDataSetChanged();
                 return true;
@@ -162,9 +231,9 @@ public class MessageListActivity extends AppCompatActivity {
 
     private void initMsgs() {
 
-        List<Message> messages = daoSession.getMessageDao().loadAll();
-        for (Message message:messages){
-            Log.e("INITMSG",message.getMessg_content());
+        List<MessageBean> messages = daoSession.getMessageBeanDao().loadAll();
+        for (MessageBean message:messages){
+            Log.e("INITMSG",message.getContent());
             msgList.add(message);
         }
 
@@ -177,6 +246,37 @@ public class MessageListActivity extends AppCompatActivity {
 //        msgList.add(msg);
 
     }
+
+    private NetConnection.OnMessageListener listener = new NetConnection.OnMessageListener() {
+
+        public void onReveive(final MessageBean msg) {
+            // 注意onReveive是子线程，更新界面一定要在主线程中
+            ThreadUtils.runInUiThread(new Runnable() {
+
+                public void run() {
+
+                    // 服务器返回回来的消息
+                    System.out.println(msg.getContent());
+                    if (MessageType.MSG_TYPE_CHAT_P2P.equals(msg.getType())) {
+                        msgList.add(msg);// 把消息加到消息集合中，这是最新的消息
+                        // 刷新消息
+                        if (adapter != null) {
+                            adapter.notifyDataSetChanged();
+                        }
+                        // 展示到最新发送的消息出
+                        if (msgList.size() > 0) {
+                            MsgListView.setSelection(msgList.size() - 1);
+                        }
+
+                    }
+
+                }
+            });
+
+        }
+    };
+
+    /**
 
     public Message getTranslate(final Message message) {
        String url = URL + message.getMessg_content();
@@ -220,4 +320,6 @@ public class MessageListActivity extends AppCompatActivity {
         });
         return message;
     }
+
+     */
 }

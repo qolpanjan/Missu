@@ -4,11 +4,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by alimj on 2017/4/23.
  */
 @Entity
-public class Friends {
+public class Friends implements Serializable {
     private int id = 0;
     private String account;// 账号 QQ号
     private String nick = "";// 昵称

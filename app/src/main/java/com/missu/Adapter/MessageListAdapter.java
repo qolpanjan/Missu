@@ -1,5 +1,6 @@
 package com.missu.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.missu.Activitys.MessageListActivity;
 import com.missu.Bean.Message;
+import com.missu.Bean.MessageBean;
 import com.missu.R;
 
 import java.util.List;
@@ -29,18 +31,48 @@ import java.util.List;
  * Created by alimj on 2017/3/9.
  */
 
-public class MessageListAdapter extends ArrayAdapter<Message> {
+public class MessageListAdapter extends ArrayAdapter<MessageBean> {
     private int resourceId;
     private Bitmap bitmap;
-    public MessageListAdapter(Context context, @LayoutRes int resource, List<Message> objects) {
+    MyApplication app;
+    public MessageListAdapter(Context context, @LayoutRes int resource, List<MessageBean> objects) {
         super(context, resource, objects);
+        Activity activity = (Activity) context;
+        app = (MyApplication) activity.getApplication();
         resourceId = resource;
+    }
+
+
+    /**
+     * 根据集合中的position位置，返回不同的值，代表不同的布局 0代表自己发送的消息 1代表接收到的消息
+     *
+     */
+    @Override
+    public int getItemViewType(int position) {// 这个方法是给getView用得
+        MessageBean msg = getItem(position);
+        // 消息来自谁，如果消息来自我自己，说明是我发送的
+        if (msg.getFrom() == app.getMyAccount()) {
+            // 我自己的消息，发送
+            return 0;
+        } else {
+            //接受的消息
+            return 1;
+        }
+    }
+
+    /**
+     * 两种布局
+     */
+    @Override
+    public int getViewTypeCount() {
+        return 2;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Message msg = getItem(position);
+        MessageBean msg = getItem(position);
+        int type = getItemViewType(position);
         View view;
         ViewHoldr viewHoldr;
         if (convertView == null){
@@ -52,42 +84,40 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
             viewHoldr.sendMsg = (TextView) view.findViewById(R.id.tv_message_send);
             viewHoldr.receivedImg = (ImageView) view.findViewById(R.id.img_profile_you);
             viewHoldr.sendImg = (ImageView)view.findViewById(R.id.img_profile_me);
+            viewHoldr.time = (TextView)view.findViewById(R.id.time);
             view.setTag(viewHoldr);
         }else {
             view = convertView;
             viewHoldr = (ViewHoldr) view.getTag();
         }
 
-        if (msg.getMessg_type() == MessageListActivity.TYPE_RECEIVED){
+
+
+        if (0 == type){
+            //接受的消息
             viewHoldr.leftLayout.setVisibility(View.VISIBLE);
             viewHoldr.rightLayout.setVisibility(View.GONE);
-            viewHoldr.receivedMsg.setText(msg.getMessg_content());
+            viewHoldr.receivedMsg.setText(msg.getContent());
+            String imgUrl = msg.getFromAvater();
 
-            String imgUrl = msg.getMessg_from_profile();
             Glide.with(getContext()).load(imgUrl).into(viewHoldr.receivedImg);
-
+            viewHoldr.time.setText(msg.getSendTime());
             //viewHoldr.receivedImg.setImageBitmap(msg.getMessg_from_profile());
         }else {
-            try{
+                //发送的消息
+                viewHoldr.time.setText(msg.getSendTime());
                 viewHoldr.rightLayout.setVisibility(View.VISIBLE);
                 viewHoldr.leftLayout.setVisibility(View.GONE);
-                viewHoldr.sendMsg.setText(msg.getMessg_content() +"\n"+ msg.getTranslate().getUighur());
-                Log.e("ADAPTER",viewHoldr.sendMsg.getText().toString());
+                viewHoldr.sendMsg.setText(msg.getContent());
+                //Log.e("ADAPTER",viewHoldr.sendMsg.getText().toString());
                 viewHoldr.sendImg.setImageBitmap(MessageListActivity.bmp1);
 
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
+                Glide.with(getContext()).load(msg.getFromAvater()).placeholder(R.mipmap.icon).into(viewHoldr.receivedImg);
         }
         return view;
     }
 
-    private void drawableToBitamp(Drawable drawable)
-     {
-                 BitmapDrawable bd = (BitmapDrawable) drawable;
-                 bitmap = bd.getBitmap();
-     }
+
 
     class ViewHoldr{
         LinearLayout leftLayout;
@@ -95,7 +125,7 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
 
         TextView receivedMsg;
         TextView sendMsg;
-
+        TextView time;
         ImageView receivedImg;
         ImageView sendImg;
     }

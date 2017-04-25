@@ -17,9 +17,15 @@ import android.widget.ListView;
 import com.missu.Activitys.MessageListActivity;
 import com.missu.Adapter.MessageAdapter;
 import com.missu.Bean.Message;
+import com.missu.Bean.MessageBean;
 import com.missu.R;
+import com.missu.Utils.Mytime;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,20 +35,50 @@ import java.util.List;
 public class ChatListFragment extends Fragment {
 
     private ListView MessageListView;
-    private List<Message> messageList;
+    //private List<Message> messageList;
     private MessageAdapter adapter;
     public static final String CHATTINGFRIEND = "chattingfriendname";
+    private List<MessageBean> mList = new ArrayList<>();
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        messageList = getMessage();
-        adapter = new MessageAdapter(context, R.layout.chat_item,messageList);
+        mList = getMessage();
+        adapter = new MessageAdapter(context, R.layout.chat_item,mList);
+
+        /**
+         * 对Message Bean对象按日期排序
+         *
+         */
+
+        Collections.sort(mList, new Comparator<MessageBean>() {
+            /**
+             *
+             * @param lhs
+             * @param rhs
+             * @return an integer < 0 if lhs is less than rhs, 0 if they are
+             *         equal, and > 0 if lhs is greater than rhs,比较数据大小时,这里比的是时间
+             */
+            @Override
+            public int compare(MessageBean lhs, MessageBean rhs) {
+                    Date date1 = Mytime.stringToDate(lhs.getSendTime());
+                    Date date2 = Mytime.stringToDate(rhs.getSendTime());
+                // 对日期字段进行升序，如果欲降序可采用after方法
+                if (date1.before(date2)) {
+                    return 1;
+                }
+                return -1;
+            }
+        });
     }
 
-    private List<Message> getMessage() {
-        List<Message> messageList = new ArrayList<>();
+    private List<MessageBean> getMessage() {
+
+        List<MessageBean> messageList = new ArrayList<>();
+        /**
+         *
+
         Message messg1 = new Message();
         Resources res = getResources();
         //Bitmap bmp = BitmapFactory.decodeResource(res,R.mipmap.icon);
@@ -66,6 +102,8 @@ public class ChatListFragment extends Fragment {
         messg2.setMessg_type("1");
         messg2.setMessg_state(1);
         messageList.add(messg2);
+         */
+
 
         return messageList;
     }
@@ -79,10 +117,10 @@ public class ChatListFragment extends Fragment {
         MessageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Message message = messageList.get(position);
+                MessageBean message = mList.get(position);
                 Intent intent = new Intent(getContext(), MessageListActivity.class);
-                intent.putExtra(CHATTINGFRIEND,message.getMessg_from_username());
-                message.setMessg_state(0);
+                //intent.putExtra(CHATTINGFRIEND,);
+                //message.setMessg_state(0);
                 startActivity(intent);
             }
         });

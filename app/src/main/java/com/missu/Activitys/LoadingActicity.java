@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.anye.greendao.gen.DaoSession;
+import com.anye.greendao.gen.UsersDao;
 import com.google.gson.Gson;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.ContactInfoList;
@@ -103,15 +104,21 @@ public class LoadingActicity extends AppCompatActivity {
 
                             DaoSession daoSession = app.getDaoSession();
                             Users users =new Users(null,account,pwd,nick,sex,avater,0);
+                            daoSession.getUsersDao().deleteAll();
                             daoSession.getUsersDao().insert(users);
+                            Users user = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(users.getUser_name())).unique();
+
                             Log.e("USERINSET","SUCCES");
                             app.setMyAccount(account);
 
 
-                            progressDialog.dismiss();
                             Intent intent = new Intent();
                             intent.setClass(LoadingActicity.this, MainActivity.class);
-                            intent.putExtra("account", USERNAME);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("user", user);
+
+                            intent.putExtra("accoutn",bundle);
+                            progressDialog.dismiss();
                             startActivity(intent);
                             finish();
 

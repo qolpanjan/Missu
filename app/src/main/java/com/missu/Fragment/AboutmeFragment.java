@@ -149,7 +149,7 @@ public class AboutmeFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     String content = user_id.getText().toString()+"#"+ users.getUser_password()+"#"+newNickName+"#"+users.getUser_profile()+"#"+users.getUser_sex();
-                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime(),users.getUser_profile());
                                     try {
                                         SendMsg(messageBean1);
                                     } catch (IOException e) {
@@ -203,7 +203,7 @@ public class AboutmeFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     String content = user_id.getText().toString()+"#"+ users.getUser_password()+"#"+user_nickname.getText().toString()+"#"+users.getUser_profile()+"#"+"true";
-                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime(),users.getUser_profile());
                                     try {
                                         SendMsg(messageBean1);
                                     } catch (IOException e) {
@@ -226,7 +226,7 @@ public class AboutmeFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     String content = user_name.getText().toString()+"#"+ users.getUser_password()+"#"+user_nickname.getText().toString()+"#"+users.getUser_profile()+"#"+"false";
-                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime());
+                                    MessageBean messageBean1 = new MessageBean(MessageType.MSG_TYPE_CHANGE_USER,"Client","Server",content, Mytime.geTime(),users.getUser_profile());
                                     try {
                                         SendMsg(messageBean1);
                                     } catch (IOException e) {

@@ -3,10 +3,13 @@ package com.missu.Activitys;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -37,6 +40,7 @@ import com.missu.Fragment.ChatListFragment;
 import com.missu.Fragment.FriendListFragment;
 import com.missu.R;
 import com.missu.Utils.NetConnection;
+import com.missu.Utils.SendMsgService;
 import com.missu.Utils.ThreadUtils;
 
 import java.lang.reflect.Field;
@@ -58,6 +62,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressDialog progressDialog;
     boolean userloading = false;
     boolean friendloading =false;
+    SendMsgService.MyBinder myBinder;
+    MyApplication app;
+
+
+    private ServiceConnection connection =new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            myBinder = (SendMsgService.MyBinder) iBinder;
+            myBinder.SendMsg();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         //调用显示菜单方法
         setOverFlowButtonAlways();
-        //getActionBar().setDisplayShowHomeEnabled(false);
-        //actionbar.setTitle("MissU");
+        app = (MyApplication) getApplication();
         NetConnection conn;
-        conn = MyApplication.getInstances().getMyConn();
+        conn = app.getMyConn();
         if (conn==null){
             conn = new NetConnection("10.22.131.23", 8090);// Socket
-            MyApplication app = (MyApplication) getApplication();
             // 保存一个长连接
             app.setMyConn(conn);
             // 保存好友列表的json串
@@ -89,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             USERNAME = pref.getString("name",null);
         }
-        Intent intent = getIntent();
+        //Intent intent = getIntent();
 
         //Log.e("USErNAME", USERNAME);
 

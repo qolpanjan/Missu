@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import org.greenrobot.greendao.annotation.Generated;
 
@@ -13,7 +14,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * Created by alimj on 2017/3/8.
  */
 @Entity
-public class Users {
+public class Users implements Serializable {
     @Id(autoincrement = true)
     private Long id;
     @Property

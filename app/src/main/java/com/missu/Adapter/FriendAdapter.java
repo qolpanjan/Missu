@@ -45,6 +45,7 @@ public class FriendAdapter extends ArrayAdapter<Friends> {
             viewholder = new Viewholder();
             viewholder.friend_profile = (ImageView) view.findViewById(R.id.img_friendlist_profile);
             viewholder.friend_nickname = (TextView)view.findViewById(R.id.tv_friendlist_nickname);
+            viewholder.friend_account = (TextView)view.findViewById(R.id.tv_friendlist_account);
             view.setTag(viewholder);
         }else {
             view = convertView;
@@ -52,6 +53,7 @@ public class FriendAdapter extends ArrayAdapter<Friends> {
         }
 
         viewholder.friend_nickname.setText(Friend.getNick());
+        viewholder.friend_account.setText(Friend.getAccount());
 
         String imgUrl = Friend.getAvatar();
         Glide.with(getContext()).load(imgUrl).placeholder(R.mipmap.icon).into(viewholder.friend_profile);
@@ -63,6 +65,7 @@ public class FriendAdapter extends ArrayAdapter<Friends> {
     class Viewholder{
         TextView friend_nickname;
         ImageView friend_profile;
+        TextView friend_account;
 }
 
 }

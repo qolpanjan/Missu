@@ -49,7 +49,6 @@ public class FriendListFragment extends Fragment{
     ImageView img_investment;
     List<Friends> FriendList;
     FriendAdapter adapter;
-    public static final String USERID = "userid";
     DaoSession daoSession;
 
     @Override
@@ -123,7 +122,9 @@ public class FriendListFragment extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Friends mfriend =FriendList.get(position);
                 Intent intent = new Intent(getContext(), FriendDetailActivity.class);
-                intent.putExtra(USERID,mfriend.getAccount());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("friend", mfriend);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.missu.Bean.Message;
+import com.missu.Bean.MessageBean;
 import com.missu.R;
 
 import java.util.List;
@@ -23,12 +24,12 @@ import q.rorbin.badgeview.QBadgeView;
  * Created by alimj on 2017/3/8.
  */
 
-public class MessageAdapter extends ArrayAdapter<Message> {
+public class MessageAdapter extends ArrayAdapter<MessageBean> {
 
     private Context context;
     private int resourceId;
 
-    public MessageAdapter(Context context,int textViewResourceID,List<Message> objects){
+    public MessageAdapter(Context context,int textViewResourceID,List<MessageBean> objects){
         super(context,textViewResourceID,objects);
         context = context;
         resourceId = textViewResourceID;
@@ -37,7 +38,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
     @NonNull
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        final Message message = getItem(position);
+        final MessageBean message = getItem(position);
         View view;
         ViewHolder viewHolder;
         if (convertView == null){
@@ -55,28 +56,29 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.tvChatUsername.setText(message.getMessg_from_username());
-        viewHolder.tvLastChatContent.setText(message.getMessg_content());
-        viewHolder.tvLastChattime.setText(message.getMessg_time());
+        viewHolder.tvChatUsername.setText(message.getFrom());
+        viewHolder.tvLastChatContent.setText(message.getContent());
+        viewHolder.tvLastChattime.setText(message.getSendTime());
 
-        String imgUrl = message.getMessg_from_profile();
-        Glide.with(getContext()).load(R.mipmap.icon).into(viewHolder.imageChatProfile);
+        String imgUrl = message.getFromAvater();
+        Glide.with(getContext()).load(R.mipmap.icon).placeholder(R.mipmap.icon).into(viewHolder.imageChatProfile);
 
         //viewHolder.imageChatProfile.setImageBitmap(message.getMessg_from_profile());
 
         /**
          * 设置显示消息数目的红点
          */
-        viewHolder.badge.setBadgeNumber(message.getMessg_state());
-        viewHolder.badge.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
-            @Override
-            public void onDragStateChanged(int dragState, Badge badge, View targetView) {
-                if (dragState == STATE_SUCCEED){
-                    Toast.makeText(getContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
-                    message.setMessg_state(0);
-                }
-            }
-        });
+//        viewHolder.badge.setBadgeNumber(message.getMessg_state());
+//        viewHolder.badge.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+//            @Override
+//            public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+//                if (dragState == STATE_SUCCEED){
+//                    Toast.makeText(getContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
+//                    message.setMessg_state(0);
+//                }
+//            }
+//        });
+
 
         return view;
     }

@@ -33,7 +33,7 @@ public class MyAvaterActivity extends AppCompatActivity {
         Log.e("MainActivity",users.getUser_name());
         myAvater = (ImageView)findViewById(R.id.img_my_avater);
         if (users.getUser_profile() != null && !users.getUser_profile().equals("")){
-            Glide.with(MyAvaterActivity.this).load(users.getUser_profile()).into(myAvater);
+            Glide.with(MyAvaterActivity.this).load(users.getUser_profile()).placeholder(R.mipmap.icon).into(myAvater);
         }
     }
 

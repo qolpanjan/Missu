@@ -12,6 +12,7 @@ import com.anye.greendao.gen.UsersDao;
 import com.missu.Adapter.MyApplication;
 import com.missu.Bean.Users;
 import com.missu.R;
+import com.missu.Utils.SendMsgService;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -29,7 +30,9 @@ public class SettingActivity extends AppCompatActivity {
                 editor.commit();
 
                 Users users =MyApplication.getInstances().getDaoSession().getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).unique();
-                MyApplication.getInstances().getDaoSession().getUsersDao().delete(users);
+                MyApplication.getInstances().getDaoSession().getUsersDao().deleteAll();
+                Intent stopIntent = new Intent(SettingActivity.this, SendMsgService.class);
+                stopService(stopIntent);
                 Intent intent = new Intent(SettingActivity.this,WelcomeActivity.class);
                 startActivity(intent);
                 finish();
