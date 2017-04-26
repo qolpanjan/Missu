@@ -20,6 +20,7 @@ public class MessageBean extends ProtocalObj implements Serializable {
     private String to = "0"; // 接收者 account
     private String content = ""; // 消息的内容 :约不?
     private String sendTime = Mytime.geTime(); // 发送时间
+    private String fromAvater ="";//发送者头像
 
     public String getFromAvater() {
         return fromAvater;
@@ -29,7 +30,7 @@ public class MessageBean extends ProtocalObj implements Serializable {
         this.fromAvater = fromAvater;
     }
 
-    private String fromAvater ="";//发送者头像
+
 
     @Generated(hash = 1185706811)
     public MessageBean(String type, String from, String to, String content, String sendTime, String fromAvater) {

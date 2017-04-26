@@ -135,7 +135,7 @@ public class SignInActivity extends AppCompatActivity {
                         try {
                             MessageBean message = new MessageBean();
                             message.setType(MessageType.MSG_TYPE_REGISTER);
-                            message.setContent(acoount+"#"+password+"#"+nickname+"" +"#"+sex);
+                            message.setContent(acoount+"#"+password+"#"+nickname+"#"+sex);
                             app.getMyConn().sendMessage(message);
 
                         } catch (IOException e) {

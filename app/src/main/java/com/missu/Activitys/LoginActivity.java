@@ -20,6 +20,7 @@ import com.missu.Adapter.MyApplication;
 import com.missu.Bean.Friends;
 import com.missu.Bean.MessageBean;
 import com.missu.Bean.MessageType;
+import com.missu.Bean.Users;
 import com.missu.R;
 import com.missu.Utils.MyService;
 import com.missu.Utils.NetConnection;
@@ -69,23 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 		 */
         initView();
 
-        ThreadUtils.runInSubThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    conn = new NetConnection(MyApplication.IP, 8090);// Socket
-                    MyApplication app = (MyApplication) getApplication();
-                    // 保存一个长连接
-                    app.setMyConn(conn);
-                    // 保存好友列表的json串
-                    conn.connect();// 建立连接
-                    // 建立连接之后，将监听器添加到连接里面
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
 
     }
@@ -108,9 +93,9 @@ public class LoginActivity extends AppCompatActivity {
         login_go.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Intent intent = new Intent(LoginActivity.this,MyService.class);
-                                            //bindService(intent,connection,BIND_AUTO_CREATE);
-                                            startService(intent);
+                                            final Intent intent = new Intent(LoginActivity.this,MyService.class);
+                                            bindService(intent,connection,BIND_AUTO_CREATE);
+                                            //startService(intent);
 
 
                                             user_name = login_user.getText().toString();
@@ -125,13 +110,28 @@ public class LoginActivity extends AppCompatActivity {
                                             ThreadUtils.runInSubThread(new Runnable() {
 
                                                 public void run() {
-                                                        conn = MyApplication.getInstances().getMyConn();
+
+                                                            try {
+                                                                conn = new NetConnection(MyApplication.IP, 8090);// Socket
+                                                                MyApplication app = (MyApplication) getApplication();
+                                                                // 保存一个长连接
+                                                                app.setMyConn(conn);
+                                                                // 保存好友列表的json串
+
+                                                                // 建立连接之后，将监听器添加到连接里面
+
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                            }
                                                         conn.addOnMessageListener(listener);
                                                         MessageBean msg = new MessageBean();
                                                         msg.setType(MessageType.MSG_TYPE_LOGIN);
                                                         msg.setContent(user_name + "#" + user_pass);
+
                                                         Log.e("MSG", msg.getContent());
                                                     try{
+                                                        Users user =new Users(null,user_name,user_pass,"","","",0);
+                                                        conn.connect();// 建立连接
                                                         conn.sendMessage(msg);
                                                     }catch (Exception e){
                                                         e.printStackTrace();
@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                     ThreadUtils.runInUiThread(new Runnable() {
 
                         public void run() {
-                            if (MessageType.MSG_TYPE_LOGIN_SUCCESS.equals(msg.getType())) {
+                            if (MessageType.MSG_TYPE_BUDDY_LIST.equals(msg.getType())) {
                                 // 登录成功，返回的数据是好友列
                                 // 有用的信息是content的json串
                                 progressDialog = new ProgressDialog(LoginActivity.this);
@@ -180,10 +180,6 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         MyApplication app = (MyApplication) getApplication();
-                                        // 保存一个长连接
-                                        //app.setMyConn(conn);
-                                        // 保存好友列表的json串
-                                        // app.setBuddyListJson(msg.getContent());
                                         // 保存当前登录用户的账号
                                         app.setMyAccount(user_name);
                                         //app.setPassword(user_pass);
@@ -193,7 +189,8 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONArray jsonArray = null;
                                         try{
                                             JSONObject jsonObject = new JSONObject(msg.getContent());
-                                            jsonArray = jsonObject.getJSONArray("List");
+
+                                            jsonArray = jsonObject.getJSONArray("friendList");
                                             for(int i=0;i<jsonArray.length();i++){
                                                 JSONObject mylist = jsonArray.getJSONObject(i);
 

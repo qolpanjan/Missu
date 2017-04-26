@@ -31,6 +31,30 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        ThreadUtils.runInSubThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    conn = new NetConnection(MyApplication.IP, 8090);// Socket
+                    MyApplication app = (MyApplication) getApplication();
+                    if (listener!=null){
+                        app.getMyConn().addOnMessageListener(listener);
+                        Log.e("ADD SUCCE","HERE  ");
+                    }
+                    // 保存一个长连接
+                    //app.setMyConn(conn);
+                    // 保存好友列表的json串
+                    conn.connect();// 建立连接
+                    // 建立连接之后，将监听器添加到连接里面
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.e("IN THREAD","here");
+
+            }
+        });
+
         Log.e(TAG,"OnCreate");
         Intent intent = new Intent();
         intent.setClass(getBaseContext(),MessageListActivity.class);
@@ -49,24 +73,7 @@ public class MyService extends Service {
 
 
 
-        try {
-            conn = new NetConnection(MyApplication.IP, 8090);// Socket
-            MyApplication app = (MyApplication) getApplication();
-            if (listener!=null){
-                app.getMyConn().addOnMessageListener(listener);
-                Log.e("ADD SUCCE","HERE  ");
-            }
 
-            // 保存一个长连接
-            app.setMyConn(conn);
-            // 保存好友列表的json串
-            conn.connect();// 建立连接
-            // 建立连接之后，将监听器添加到连接里面
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -79,6 +86,7 @@ public class MyService extends Service {
                 ThreadUtils.runInUiThread(new Runnable() {
 
                     public void run() {
+                        Log.e("TAG",msg.getContent());
 
                         // 服务器返回回来的消息
                         System.out.println(msg.getContent());
@@ -105,6 +113,7 @@ public class MyService extends Service {
             }
 
         };
+        Log.e("TAG"," startcommand finish");
         return super.onStartCommand(intent, flags, startId);
     }
 
