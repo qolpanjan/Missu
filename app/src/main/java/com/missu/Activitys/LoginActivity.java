@@ -1,248 +1,190 @@
 package com.missu.Activitys;
 
-import android.app.ProgressDialog;
-import android.content.ComponentName;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.anye.greendao.gen.DaoSession;
-
-import com.missu.Adapter.MyApplication;
-import com.missu.Bean.Friends;
-import com.missu.Bean.MessageBean;
-import com.missu.Bean.MessageType;
+import com.missu.Bean.DaoSession;
 import com.missu.Bean.Users;
 import com.missu.R;
-import com.missu.Utils.MyService;
-import com.missu.Utils.NetConnection;
-import com.missu.Utils.ThreadUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.IOException;
 
-
-
-public class LoginActivity extends AppCompatActivity {
-
-    EditText login_user,login_password;
-    Button login_go,login_sign;
-    String user_name,user_pass;
-    NetConnection conn;
-    ProgressDialog progressDialog;
-    private MyService.MyBinder myBinder;
+import com.missu.Util.MyService;
+import com.missu.Util.QQConnection;
+import com.missu.Util.ThreadUtils;
+import com.missu.Bean.QQMessage;
+import com.missu.Bean.QQMessageType;
 
 
-    private ServiceConnection connection =new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            myBinder = (MyService.MyBinder) iBinder;
-            myBinder.startDownload();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-        }
-    };
+public class LoginActivity extends Activity {
 
 
+	private AutoCompleteTextView account;
 
+	private EditText password;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        Log.e("ACTIVITY","LOGIN");
-        /**
-		 * ç™»å½•çš„é€»è¾‘:é¦–å…ˆè¿æ¥æœåŠ¡å™¨ï¼Œè·å–ç”¨æˆ·è¾“å…¥çš„è´¦å·å’Œå¯†ç ï¼Œè®²è´¦æˆ·å’Œå¯†ç å‘é€ç»™æœåŠ¡å™¨;æœåŠ¡å™¨åšä¸€äº›éªŒè¯æ“ä½œï¼Œå°†éªŒè¯ç»“æœè¿”å›ç»™å®¢æˆ·ç«¯ï¼Œ
-		 * å®¢æˆ·ç«¯å†è¿›è¡Œæ¥æ”¶æ¶ˆæ¯çš„æ“ä½œ
-		 * ä¸ç½‘ç»œç›¸å…³çš„æ“ä½œè¦æ”¾åœ¨å­çº¿ç¨‹ä¸­è¿›è¡Œ
-		 */
-        initView();
+	private String accountStr;
+	private String passwordStr;//
+    ImApp app;
+    ProgressBar progressBar;
+    ScrollView Sview;
 
+    QQConnection conn;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+        account = (AutoCompleteTextView)findViewById(R.id.email);
+        password = (EditText)findViewById(R.id.password);
+        progressBar =(ProgressBar) findViewById(R.id.login_progress);
+        Sview = (ScrollView)findViewById(R.id.login_form);
+        /*
+		 * µÇÂ¼µÄÂß¼­:Ê×ÏÈÁ¬½Ó·şÎñÆ÷£¬»ñÈ¡ÓÃ»§ÊäÈëµÄÕËºÅºÍÃÜÂë£¬½²ÕË»§ºÍÃÜÂë·¢ËÍ¸ø·şÎñÆ÷;·şÎñÆ÷×öÒ»Ğ©ÑéÖ¤²Ù×÷£¬½«ÑéÖ¤½á¹û·µ»Ø¸ø¿Í»§¶Ë£¬
+		 * ¿Í»§¶ËÔÙ½øĞĞ½ÓÊÕÏûÏ¢µÄ²Ù×÷// ÓëÍøÂçÏà¹ØµÄ²Ù×÷Òª·ÅÔÚ×ÓÏß³ÌÖĞ½øĞĞ */
 
+		ThreadUtils.runInSubThread(new Runnable() {
+			public void run() {
+				try {
+					conn = new QQConnection("115.159.109.131", 8090);// Socket
+					conn.connect();
+					//Á´½ÓÖ®ºó°ÑÁ´½Ó±£´æÔÚApplication×÷Îª³¤Á¬½Ó
+					app = (ImApp) getApplication();
+					// ±£´æÒ»¸ö³¤Á¬½Ó
+					app.setMyConn(conn);
+					conn.addOnMessageListener(listener);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
-    }
+	}
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        conn.removeOnMessageListener(listener);
-    }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		conn.removeOnMessageListener(listener);
+	}
 
     /**
-     * åˆå§‹åŒ–å¯è§†åŒ–æ§ä»¶
+     * µÇÂ¼°´Å¥µã»÷ÊÂ¼ş
+     * @param view
      */
-    private void initView() {
-        login_user = (EditText)findViewById(R.id.et_login_user);
+	public void login(View view) {
+		progressBar.setVisibility(View.VISIBLE);
+        Sview.setVisibility(View.GONE);
+		accountStr = account.getText().toString().trim();
+		passwordStr = password.getText().toString().trim();
+        Intent intent1 = new Intent(LoginActivity.this,MyService.class);
+        startService(intent1);
 
-        login_password = (EditText)findViewById(R.id.et_login_password);
+		/**
+		 * <QQMessage>
+		 <content>alimjan#12345</content>
+		 <from>0L</from>
+		 <fromAvatar>1</fromAvatar>
+		 <fromNick></fromNick>
+		 <sendTime>05-01 13:02:27</sendTime>
+		 <to>0L</to>
+		 <type>login</type>
+		 </QQMessage>
+		 */
 
-        login_go = (Button)findViewById(R.id.btn_login_login);
-        login_go.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            final Intent intent = new Intent(LoginActivity.this,MyService.class);
-                                            bindService(intent,connection,BIND_AUTO_CREATE);
-                                            //startService(intent);
+		//½«ÃÜÂëºÍÓÃ»§Ãû·â×°³É¶ÔÏóÔÚÏß³Ì·¢¸ø·şÎñÆ÷
+		ThreadUtils.runInSubThread(new Runnable() {
 
+			public void run() {
+				try {
+					QQMessage msg = new QQMessage();
+					msg.type = QQMessageType.MSG_TYPE_LOGIN;
+					msg.content = accountStr + "#" + passwordStr;
+					conn.sendMessage(msg);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
-                                            user_name = login_user.getText().toString();
-                                            user_pass = login_password.getText().toString();
-                                            if (user_name == null || user_name.equals("")) {
-                                                Toast.makeText(LoginActivity.this, "è´¦å·ä¸èƒ½ä¸ºç©ºï¼", Toast.LENGTH_SHORT).show();
-                                            }
-                                            if (user_pass == null || user_pass.equals("")) {
-                                                Toast.makeText(LoginActivity.this, "å¯†ç ä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
-                                            }
+	}
 
-                                            ThreadUtils.runInSubThread(new Runnable() {
+	public void goRegister(View view){
+        Intent intent = new Intent(LoginActivity.this,ResitActivity.class);
+        startActivity(intent);
+    }
 
-                                                public void run() {
+	/**
+	 * µÇÂ¼³É¹¦Ö®ºó·µ»ØºÃÓÑÁĞ±í <QQMessage> <type>buddylist</type> <from>0</from>
+	 */
+	// ¿Í»§¶ËÕâÀïÒªÍê³É½ÓÊÕµÄÂß¼­
+	// Ê¹ÓÃ½ÓÊÕÏûÏ¢µÄ¼àÌıÆ÷
+	private QQConnection.OnMessageListener listener = new QQConnection.OnMessageListener() {
 
-                                                            try {
-                                                                conn = new NetConnection(MyApplication.IP, 8090);// Socket
-                                                                MyApplication app = (MyApplication) getApplication();
-                                                                // ä¿å­˜ä¸€ä¸ªé•¿è¿æ¥
-                                                                app.setMyConn(conn);
-                                                                // ä¿å­˜å¥½å‹åˆ—è¡¨çš„jsonä¸²
+		@Override
+		public void onReveive(final QQMessage msg) {
+			System.out.println(msg.toXML());
+			// ½ÓÊÕ·şÎñÆ÷·µ»ØµÄ½á¹û.´¦ÀíÊı¾İµÄÏÔÊ¾,ÔËĞĞÔÚÖ÷Ïß³ÌÖĞ
+			ThreadUtils.runInUiThread(new Runnable() {
 
-                                                                // å»ºç«‹è¿æ¥ä¹‹åï¼Œå°†ç›‘å¬å™¨æ·»åŠ åˆ°è¿æ¥é‡Œé¢
+				public void run() {
+					if (QQMessageType.MSG_TYPE_BUDDY_LIST.equals(msg.type)) {
+						// µÇÂ¼³É¹¦£¬·µ»ØµÄÊı¾İÊÇºÃÓÑÁĞ±í
+						// ÓĞÓÃµÄĞÅÏ¢ÊÇcontentµÄjson´®
+						Toast.makeText(getBaseContext(),R.string.toast_login_succes, Toast.LENGTH_SHORT).show();
+						// ½«Á¬½Óconn±£´æµ½applicationÖĞ£¬×÷ÎªÒ»¸ö³¤Á¬½Ó´æÔÚ£¬ÕâÑùÔÚÆäËûµÄactivity£¬serverÖĞ¶¼ÄÜÄÃµ½Õâ¸öÁ¬½Ó£¬±£Ö¤ÁËÏîÄ¿Á¬½ÓµÄÎ¨Ò»ĞÔ
+						// ĞÂ½¨Ò»¸öapplicationÀà£¬¸ø³öget£¬set·½·¨£¬Ê¹ÓÃapplication¿ÉÒÔÔÚÕû¸öÏîÄ¿ÖĞ¹²ÏíÊı¾İ
+						// ±£´æÒ»¸ö³¤Á¬½Ó
+						//app.setMyConn(conn);
+						// ±£´æºÃÓÑÁĞ±íµÄjson´®
+                        String content = msg.content;
+                        String[] buddyJson = content.split("#");
+                        String[] userbuddy =buddyJson[1].split("!");
+                        Log.e("userbuddy",accountStr);
 
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        conn.addOnMessageListener(listener);
-                                                        MessageBean msg = new MessageBean();
-                                                        msg.setType(MessageType.MSG_TYPE_LOGIN);
-                                                        msg.setContent(user_name + "#" + user_pass);
+                        Users users = new Users(null,accountStr,userbuddy[4],userbuddy[1],userbuddy[2],userbuddy[0]);
+                        app.setMyAccount(accountStr);
+                        app.setAvater(userbuddy[0]);
+                        app.setNick(userbuddy[1]);
+                        app.setSex(userbuddy[2]);
+                        app.setId(userbuddy[3]);
+                        app.setPassword(userbuddy[4]);
+                        DaoSession daoSession = app.getDaoSession();
+                        daoSession.getUsersDao().deleteAll();
+                        daoSession.getUsersDao().insert(users);
+						app.setBuddyListJson(buddyJson[0]);
+						// ±£´æµ±Ç°µÇÂ¼ÓÃ»§µÄÕËºÅ
+						app.setMyAccount(accountStr);
+						// ´ò¿ªÖ÷Ò³
+						Intent intent = new Intent();
 
-                                                        Log.e("MSG", msg.getContent());
-                                                    try{
-                                                        Users user =new Users(null,user_name,user_pass,"","","",0);
-                                                        conn.connect();// å»ºç«‹è¿æ¥
-                                                        conn.sendMessage(msg);
-                                                    }catch (Exception e){
-                                                        e.printStackTrace();
-                                                    }
+						intent.setClass(LoginActivity.this, MyActivity.class);
+						intent.putExtra("account", accountStr);
+						startActivity(intent);
+                        finish();
 
-
-                                                }
-                                            });
-                                        }
-                                    });
-
-
-                login_sign = (Button) findViewById(R.id.btn_login_sign);
-                login_sign.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(LoginActivity.this, SignInActivity.class);
-                        startActivity(intent);
-
+					} else if (QQMessageType.MSG_TYPE_FAILURE.equals(msg.type)) {
+                            progressBar.setVisibility(View.GONE);
+                            Sview.setVisibility(View.VISIBLE);
+                            Toast.makeText(getBaseContext(),R.string.toast_login_error, Toast.LENGTH_SHORT).show();
+                    }else if(QQMessageType.MSG_TYPE_WRONGPASS.equals(msg.type)){
+                            progressBar.setVisibility(View.GONE);
+                            Sview.setVisibility(View.VISIBLE);
+                            Toast.makeText(getBaseContext(),R.string.toas_pass_wrong, Toast.LENGTH_SHORT).show();
                     }
-                });
+				}
+			});
 
-            }
+		}
+	};
 
-
-            private NetConnection.OnMessageListener listener = new NetConnection.OnMessageListener() {
-
-                @Override
-                public void onReveive(final MessageBean msg) {
-                    System.out.println(msg.toXML());
-                    // æ¥æ”¶æœåŠ¡å™¨è¿”å›çš„ç»“æœ.å¤„ç†æ•°æ®çš„æ˜¾ç¤º,è¿è¡Œåœ¨ä¸»çº¿ç¨‹ä¸­
-                    ThreadUtils.runInUiThread(new Runnable() {
-
-                        public void run() {
-                            if (MessageType.MSG_TYPE_BUDDY_LIST.equals(msg.getType())) {
-                                // ç™»å½•æˆåŠŸï¼Œè¿”å›çš„æ•°æ®æ˜¯å¥½å‹åˆ—
-                                // æœ‰ç”¨çš„ä¿¡æ¯æ˜¯contentçš„jsonä¸²
-                                progressDialog = new ProgressDialog(LoginActivity.this);
-                                progressDialog.setMessage("æ­£åœ¨è½½å…¥Â·Â·Â·");
-                                progressDialog.setCancelable(false);
-                                progressDialog.show();
-
-                                // å°†è¿æ¥connä¿å­˜åˆ°applicationä¸­ï¼Œä½œä¸ºä¸€ä¸ªé•¿è¿æ¥å­˜åœ¨ï¼Œè¿™æ ·åœ¨å…¶ä»–çš„activityï¼Œserverä¸­éƒ½èƒ½æ‹¿åˆ°è¿™ä¸ªè¿æ¥ï¼Œä¿è¯äº†é¡¹ç›®è¿æ¥çš„å”¯ä¸€æ€§
-                                // æ–°å»ºä¸€ä¸ªapplicationç±»ï¼Œç»™å‡ºgetï¼Œsetæ–¹æ³•ï¼Œä½¿ç”¨applicationå¯ä»¥åœ¨æ•´ä¸ªé¡¹ç›®ä¸­å…±äº«æ•°æ®
-                                ThreadUtils.runInSubThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MyApplication app = (MyApplication) getApplication();
-                                        // ä¿å­˜å½“å‰ç™»å½•ç”¨æˆ·çš„è´¦å·
-                                        app.setMyAccount(user_name);
-                                        //app.setPassword(user_pass);
-                                        //Gson gson = new Gson();
-                                        Log.e("MGS CONTENT",msg.getContent());
-                                       // ContactInfoList contactInfoList = gson.fromJson(msg.getContent(), ContactInfoList.class);
-                                        JSONArray jsonArray = null;
-                                        try{
-                                            JSONObject jsonObject = new JSONObject(msg.getContent());
-
-                                            jsonArray = jsonObject.getJSONArray("friendList");
-                                            for(int i=0;i<jsonArray.length();i++){
-                                                JSONObject mylist = jsonArray.getJSONObject(i);
-
-                                                DaoSession daoSession = app.getDaoSession();
-                                                Friends friends = new Friends(Integer.parseInt(mylist.getString("id")),mylist.getString("account"),mylist.getString("nick"),mylist.getString("sex"),mylist.getString("avatar"));
-                                                daoSession.getFriendsDao().insert(friends);
-                                                Log.e("FRIENDS","SUCCES"+friends.getNick());
-                                            }
-                                        }catch (JSONException e){
-                                            e.printStackTrace();
-                                        }
-
-
-                                    }
-                                });
-
-                                // æ‰“å¼€ä¸»é¡µ
-                                Log.e("LOGING", msg.getType());
-
-
-                                SharedPreferences.Editor editor = getSharedPreferences("login", MODE_PRIVATE).edit();
-                                editor.putBoolean("login", true);
-                                editor.putString("name", user_name);
-                                editor.commit();
-
-                                MyApplication app = (MyApplication) getApplication();
-                                app.setMyAccount(user_name);
-
-                                Intent intent = new Intent();
-                                intent.setClass(getBaseContext(), LoadingActicity.class);
-                                intent.putExtra("account", user_name);
-                                progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), "ç™»å½•æˆåŠŸ ï¼", Toast.LENGTH_SHORT).show();
-                                startActivity(intent);
-                                finish();
-
-                            } else if (MessageType.MSG_TYPE_FAILURE.equals(msg.getType())) {
-                                Toast.makeText(getBaseContext(), "è´¦å·æˆ–è€…å¯†ç é”™è¯¯ï¼Œè¯·æ£€æŸ¥é‡æ–°è¾“å…¥", Toast.LENGTH_SHORT).show();
-                            } else if (MessageType.MSG_TYPE_GETUSER_SUCCESS.equals(msg.getType())){
-                                Log.e("MSG TYPE", msg.getType());
-
-                            }else {
-                                Toast.makeText(getBaseContext(), "ç½‘ç»œé“¾æ¥é”™è¯¯", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-
-                }
-
-
-            } ;
 
 
 

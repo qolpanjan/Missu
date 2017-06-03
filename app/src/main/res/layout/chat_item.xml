@@ -9,17 +9,16 @@
     <LinearLayout
         android:id="@+id/chat_item"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:orientation="horizontal"
-        android:paddingTop="5dp">
+        >
 
-        <com.missu.CreatedUi.RoundAngleImageView
+        <com.missu.View.RoundAngleImageView
             android:id="@+id/img_chat_profile"
-            android:padding="5dp"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:roundWidth="21dp"
-            app:roundHeight="21dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:roundWidth="2dp"
+            app:roundHeight="2dp"
             android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="10dp"
             app:srcCompat="@mipmap/icon" />
@@ -28,7 +27,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="4"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -37,25 +36,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:text="聊天用户名称"
                 android:lines="1"
                 android:ellipsize="end"
                 android:textColor="#000"
-                android:textSize="25sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/tv_last_chat_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginTop="5dp"
                 android:lines="1"
                 android:textColor="#555"
                 android:ellipsize="end"
                 android:text="聊天内容"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
 
         </LinearLayout>
@@ -63,7 +62,7 @@
         <TextView
             android:id="@+id/tv__last_chat_time"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="right"
             android:layout_marginRight="10dp"
             android:layout_height="wrap_content"

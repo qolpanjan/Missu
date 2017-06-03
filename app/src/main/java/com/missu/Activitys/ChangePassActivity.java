@@ -8,27 +8,35 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.anye.greendao.gen.DaoSession;
-import com.anye.greendao.gen.UsersDao;
-import com.missu.Adapter.MyApplication;
+import com.missu.Bean.DaoSession;
+import com.missu.Bean.QQMessage;
+import com.missu.Bean.QQMessageType;
 import com.missu.Bean.Users;
+import com.missu.Bean.UsersDao;
 import com.missu.R;
+import com.missu.Util.QQConnection;
+
+import java.io.IOException;
 
 public class ChangePassActivity extends AppCompatActivity {
 
     EditText lastPass,newPass,confirmPass;
     Button confirm;
+    ImApp app;
+    QQConnection conn;
+    DaoSession daoSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_pass);
+        setContentView(R.layout.activity_change_pass2);
         lastPass = (EditText)findViewById(R.id.et_changepass_oldpass);
         newPass = (EditText)findViewById(R.id.et_changepass_newpass);
         confirmPass = (EditText)findViewById(R.id.et_changepass_confirmpass);
         confirm = (Button)findViewById(R.id.btn_changepass_confirm);
-        final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        final Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).build().unique();
+        app = (ImApp) getApplication();
+        daoSession = app.getDaoSession();
+
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,12 +47,24 @@ public class ChangePassActivity extends AppCompatActivity {
                 if (newPass.getText().toString().trim().equals("")){
                     Toast.makeText(ChangePassActivity.this,"新密码不能为空，请重新输入",Toast.LENGTH_SHORT).show();
                 }
-                if (lastPass.getText().toString().equals(users.getUser_password())){
+                if (lastPass.getText().toString().equals(app.getPassword())){
                     if (newPass.getText().toString().equals(confirmPass.getText().toString())){
-                          Users users1 = new Users(users.getId(),users.getUser_name(),newPass.getText().toString(),users.getUser_nickname(),users.getUser_sex(),users.getUser_profile(),users.getUnread_message());
-                            daoSession.getUsersDao().update(users1);
+                        QQMessage message = new QQMessage();
+                        message.type = QQMessageType.MSG_TYPE_UPDATE;
+                        message.from = app.getMyAccount();
+                        
+                        message.content = app.getMyAccount()+"#"+newPass.getText().toString()+"#"+ app.getNick() + "#" + app.getAvater()+"#"+app.getSex();
+                        conn = app.getMyConn();
+                        try {
+                            conn.sendMessage(message);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(app.getMyAccount())).unique();
+                        Users user = new Users(users.getId(),users.getUser_name(),newPass.getText().toString(),users.getUser_nickname(),"true",users.getUser_profile());
+                        daoSession.getUsersDao().update(user);
                         Toast.makeText(getApplicationContext(),"密码修改成功",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(ChangePassActivity.this,MainActivity.class);
+                        Intent intent = new Intent(ChangePassActivity.this,MyActivity.class);
                         startActivity(intent);
                         finish();
                     }else {
@@ -60,4 +80,5 @@ public class ChangePassActivity extends AppCompatActivity {
         });
 
     }
-}
+    }
+

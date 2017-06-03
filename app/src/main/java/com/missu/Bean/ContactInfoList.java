@@ -1,19 +1,18 @@
 package com.missu.Bean;
 
-import com.missu.Utils.ProtocalObj;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alimj on 2017/4/23.
+ * 好友列表的信息，listView条目的信息，包括头像，昵称，个性签名
+ * 
+ * @author ZHY
+ * 
  */
+public class ContactInfoList {
+	// "account": 101,
+	// "avatar": 0,
+	// "nick": "aa"
+	public List<ContactInfo> buddyList = new ArrayList<ContactInfo>();
 
-public class ContactInfoList extends ProtocalObj{
-    // "account": 101,
-    // "avatar": 0,
-    // "nick": "aa"
-    //"sex":true
-    //"belongto":
-    public List<Friends> buddyList = new ArrayList<Friends>();
 }

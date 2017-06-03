@@ -7,57 +7,60 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.missu.Bean.Friends;
+
+import com.missu.Bean.ContactInfo;
 import com.missu.R;
 
 import java.util.List;
 
-public class ContactInfoAdapter extends ArrayAdapter<Friends> {
+public class ContactInfoAdapter extends ArrayAdapter<ContactInfo> {
 
 	/**
+	 * 传入上下文与集合
 	 * 
 	 * @param context
 	 * @param objects
 	 */
-	public ContactInfoAdapter(Context context, List<Friends> objects) {
+	public ContactInfoAdapter(Context context, List<ContactInfo> objects) {
 		super(context, 0, objects);
 	}
 
 	class ViewHolder {
-		ImageView avater;
+		ImageView icon;
 		TextView title;
-		//TextView desc;
+		TextView desc;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Friends info = getItem(position);//
-		//
+		ContactInfo info = getItem(position);// 从集合中取得数据
+		// listView的优化
 		ViewHolder holder;
 		if (convertView == null) {
 			convertView = View.inflate(getContext(), R.layout.friendlist_item, null);
 			holder = new ViewHolder();
-			holder.avater = (ImageView) convertView.findViewById(R.id.icon);
-			holder.title = (TextView) convertView.findViewById(R.id.title);
-			//holder.desc = (TextView) convertView.findViewById(R.id.desc);
+			holder.icon = (ImageView) convertView.findViewById(R.id.img_friendlist_profile);
+			holder.title = (TextView) convertView.findViewById(R.id.tv_friendlist_nickname);
+			holder.desc = (TextView) convertView.findViewById(R.id.tv_friendlist_account);
 			convertView.setTag(holder);
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		//
-		if (info.getAvatar() ==null) {
-			//
-			holder.avater.setImageResource(R.mipmap.icon);
+		// 赋值
+		if (info.avatar.equals("0")) {
+			// 默认头像
+			holder.icon.setImageResource(R.mipmap.icon);
 		} else {
-			Glide.with(getContext()).load(info.getAvatar()).placeholder(R.mipmap.icon).into(holder.avater);
+			//holder.icon.setImageResource(info.avatar);
 		}
+		// 如果是自己登录的账号，则显示自己，否则显示账号
+		// 获得保存在application中的自己登录的账号
 
-		holder.title.setText(info.getNick() + "");
+		holder.title.setText(info.nick + "");
 
-		//holder.desc.setText(info.nick);
+		holder.desc.setText(info.account);
 		return convertView;
 	}
 }

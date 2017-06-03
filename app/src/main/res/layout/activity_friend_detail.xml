@@ -7,6 +7,23 @@
     tools:context="com.missu.Activitys.FriendDetailActivity"
     android:orientation="vertical">
 
+
+
+    <ProgressBar
+        android:id="@+id/search_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_search_no_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:text="@string/toast_login_error"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -15,7 +32,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
 
-        <com.missu.CreatedUi.RoundAngleImageView
+        <com.missu.View.RoundAngleImageView
             android:id="@+id/img_friend_detail_profile"
             android:layout_marginLeft="10dp"
             android:layout_width="80dp"
@@ -33,7 +50,7 @@
                 android:id="@+id/tv_friend_detail_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="用户昵称"
+                android:text="@string/prompt_nick"
                 android:textColor="#000"
                 android:lines="1"
                 android:ellipsize="end"
@@ -70,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="性别："
+            android:text="@string/sex"
             android:textColor="#000"
             android:textSize="18sp"
             android:layout_gravity="center_vertical"
@@ -81,7 +98,7 @@
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
-            android:text="男"
+            android:text="@string/man"
             android:textSize="18sp"
             android:layout_gravity="center_vertical"/>
 
@@ -96,7 +113,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/send_message_btn"
-        android:text="发消息"/>
+        android:text="@string/send_message"/>
 
     <Button
         android:id="@+id/btn_delete_friend"
@@ -106,7 +123,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/delete_friend_btn"
-        android:text="发消息"/>
+        android:text="@string/delete"/>
 
 
 

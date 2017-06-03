@@ -5,21 +5,11 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.missu.Activitys.MainActivity">
+    android:orientation="vertical">
 
-    <!--
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="10dp"
-        >
 
-    </android.support.v7.widget.Toolbar>
 
-    -->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -37,33 +27,33 @@
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
-        android:background="@drawable/tab_bg"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@drawable/tab_bg"
         android:orientation="horizontal">
 
 
-        <com.missu.ChangeColorAndIcon
+        <com.missu.View.ChangeColorAndIcon
             android:id="@+id/indicator_one"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            hyman:text="@string/tab_chat"
-            hyman:text_size="12sp"
             hyman:color="#45c01a"
-            hyman:icon="@mipmap/chat" />
+            hyman:icon="@mipmap/chat"
+            hyman:text="@string/tab_chat"
+            hyman:text_size="12sp" />
 
-        <com.missu.ChangeColorAndIcon
+        <com.missu.View.ChangeColorAndIcon
             android:id="@+id/indicator_two"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            hyman:text="@string/tab_contact"
-            hyman:text_size="12sp"
             hyman:color="#45c01a"
-            hyman:icon="@mipmap/contact"/>
+            hyman:icon="@mipmap/contact"
+            hyman:text="@string/tab_contact"
+            hyman:text_size="12sp" />
 
         <!--
 
@@ -80,16 +70,16 @@
 
             -->
 
-        <com.missu.ChangeColorAndIcon
+        <com.missu.View.ChangeColorAndIcon
             android:id="@+id/indicator_four"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="10dp"
-            hyman:text="@string/tab_me"
-            hyman:text_size="12sp"
             hyman:color="#45c01a"
-            hyman:icon="@mipmap/me"/>
+            hyman:icon="@mipmap/me"
+            hyman:text="@string/tab_me"
+            hyman:text_size="12sp" />
 
 
     </LinearLayout>

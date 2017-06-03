@@ -2,39 +2,28 @@ package com.missu.Activitys;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-
-import com.anye.greendao.gen.DaoSession;
-import com.anye.greendao.gen.UsersDao;
-import com.bumptech.glide.Glide;
-import com.missu.Adapter.MyApplication;
-import com.missu.Bean.Users;
 import com.missu.R;
 
 import java.io.File;
 
 public class MyAvaterActivity extends AppCompatActivity {
     ImageView myAvater;
-    Users users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_avater);
-        final DaoSession daoSession = MyApplication.getInstances().getDaoSession();
-        Users users = daoSession.getUsersDao().queryBuilder().where(UsersDao.Properties.User_name.eq(MainActivity.USERNAME)).build().unique();
-        Log.e("MainActivity",users.getUser_name());
+
         myAvater = (ImageView)findViewById(R.id.img_my_avater);
-        if (users.getUser_profile() != null && !users.getUser_profile().equals("")){
-            Glide.with(MyAvaterActivity.this).load(users.getUser_profile()).placeholder(R.mipmap.icon).into(myAvater);
-        }
+
     }
 
     @Override
@@ -52,7 +41,7 @@ public class MyAvaterActivity extends AppCompatActivity {
                 startActivityForResult(intent1, 103);
                 break;
             case R.id.menu_take_photo:
-                String imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+users.getUser_name()+".jpg";
+                String imageFilePath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/";
                 File temp = new File(imageFilePath);
                 Uri imageFileUri = Uri.fromFile(temp);//获取文件的Uri
                 Intent it = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//跳转到相机Activity

@@ -2,67 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.missu">
 
-    <!-- 添加读写权限 -->
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 访问互联网权限 -->
+    <!-- get the net work prtmission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- QR Permission -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.front" />
 
     <application
-        android:name=".Adapter.MyApplication"
+        android:name=".Activitys.ImApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activitys.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.MessageListActivity"
-            android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.FriendDetailActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.MyAvaterActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.ChangePassActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.SearchResultActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.SeachFriendActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.LoginActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.SignInActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activitys.WelcomeActivity"
+            android:name=".Activitys.SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,14 +39,103 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Activitys.MyActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.FriendDetailActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.MyAvaterActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.SearchResultActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.SeachFriendActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activitys.SettingActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".Activitys.MainActivity"
+            android:parentActivityName=".Activitys.MyActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activitys.LoadingActicity"></activity>
 
-        <service android:name=".Utils.MyService"/>
+
+        <service android:name=".Util.MyService" />
+
+        <activity
+            android:name=".Activitys.ResitActivity"
+            android:label="@string/title_activity_resigter"
+            android:parentActivityName=".Activitys.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.missu.Activitys.LoginActivity" />
+        </activity>
+
+        <activity
+            android:name=".Activitys.Add_Friend_Ask_Activity"
+            android:parentActivityName=".Activitys.MyActivity" />
+
+        <activity
+            android:name=".Activitys.ChangePassActivity"
+            android:parentActivityName=".Activitys.MyActivity"/>
+
+        <activity
+            android:name=".Activitys.ChatActivity"
+            android:parentActivityName=".Activitys.MyActivity" />
+
+        <activity
+            android:name=".Activitys.QRActivity"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".Activitys.QRScannerActivity"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.QR_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog"
+            android:parentActivityName=".Activitys.MyActivity"/>
+
+        <activity
+            android:name=".Activitys.AboutActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.MyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.AboutRoolActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".Activitys.AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.LanguageActivity"
+            android:parentActivityName=".Activitys.SettingActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

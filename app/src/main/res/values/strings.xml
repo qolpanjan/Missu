@@ -1,11 +1,32 @@
 <resources>
-    <string name="app_name">Missu</string>
+    <string name="app_name">MissU</string>
+    <string name="appname">基于维语的网络聊天系统</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email"> 账户</string>
+    <string name="prompt_nick">昵称</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_register">注册</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_email">账户输入不正确</string>
+    <string name="error_invalid_password">密码输入太短</string>
+    <string name="error_incorrect_password">你输入的密码不正确</string>
+    <string name="error_field_required">不能为空哦</string>
+    <string name="permission_rationale">需要获取通讯录</string>
     <string name="action_serach">搜索</string>
     <string name="add_new_freind">添加新朋友</string>
     <string name="scan">扫一扫</string>
     <string name="advice">意见反馈</string>
     <string name="about">关于</string>
+    <string name="translate">翻译</string>
+    <string name="copy">复制</string>
+    <string name="delete">删除</string>
+    <string name="copied">已复制</string>
 
+    <string name="translating">正在翻译...</string>
+    <string name="new_message">你有一条新消息</string>
+    <string name="new_friend">添加好友请求</string>
     <string name="tab_chat">聊天</string>
     <string name="tab_contact">通讯录</string>
     <string name="tab_moment">广场</string>
@@ -13,5 +34,51 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="search_label">搜索</string>
     <string name="search_hint">搜索</string>
-</resources>
+    <string name="toast_login_error">账号不存在，请检查重新输入</string>
+    <string name="toas_pass_wrong">你输入的密码错误，请检查重新输入</string>
+    <string name="toast_login_succes">登录成功！</string>
+    <string name="title_activity_resigter">注册</string>
+    <string name="origin_password">请输入原来的的的密码</string>
+    <string name="new_paddword">请输入新密码</string>
+    <string name="confirm_new_password">请确认新密码</string>
+    <string name="confirm">确认</string>
+    <string name="send">发送</string>
+    <string name="sex">    性别</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="send_message">发消息</string>
+    <string name="enter_account">请输入你的用户账号</string>
+    <string name="enter_password">请输入你的密码</string>
+    <string name="confirm_password">请确认你的密码</string>
+    <string name="enter_nick">请输入你的昵称</string>
+    <string name="enter_phone">请输入你的手机号</string>
+    <string name="login_out">退出登录</string>
+    <string name="welcome">南京理工大学毕业设计项目</string>
+    <string name="tips">申请与通知</string>
+    <string name="groupchat">群聊</string>
+    <string name="friend_list">朋友列表</string>
+    <string name="setting">   设置</string>
+    <string name="welcometouse">欢迎使用Miss U维汉翻译聊天系统！</string>
+    <string name="app_rool">功能介绍</string>
+    <string name="contect_auother">联系开发者</string>
+    <string name="app_number">去评分</string>
+    <string name="langugae">界面语言</string>
+    <string name="infrom_setting">通知设定</string>
+    <string name="input_new_nick">请输入你的新昵称</string>
+    <string name="new_nick_not_null">新昵称不能为空！</string>
+    <string name="nick_change_succes">昵称修改成功！</string>
+    <string name="cancel">取消</string>
+    <string name="sex_change_succes">性别修改成功！</string>
+    <string name="about_rool">介绍功能</string>
+    <string name="testing">本应用还在测试阶段，敬请期待</string>
+    <string name="new_message_inform">接受新消息通知</string>
+    <string name="new_message_sound">铃声通知</string>
+    <string name="new_message_vibrate">震动通知</string>
+    <string name="night_shift">夜间免打扰</string>
+    <string name="email_contact">请通过电子邮件联系开发者</string>
+    <string name="new_friend_activity">新的朋友</string>
+    <string name="make_unread">表为未读</string>
+    <string name="make_top">置顶</string>
 
+
+</resources>

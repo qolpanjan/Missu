@@ -10,4 +10,16 @@
     <drawable name="RedPressed">#FF2D50</drawable>
     <drawable name="Grey">#eee</drawable>
     <drawable name="White">#fff</drawable>
+
+    <color name="background_white">#ffffff</color>
+    <color name="background_gray">#f0f0f0</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="mygreen">#15D228</color>
+    <color name="darkGreen">#02650c</color>
+
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+
 </resources>

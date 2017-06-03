@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/sign_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/et_sign_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:lines="1"
+        android:hint="@string/enter_account"
+        android:background="@android:drawable/edit_text"/>
+
+    <EditText
+        android:id="@+id/et_sign_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:lines="1"
+        android:hint="@string/enter_password"
+        android:background="@android:drawable/edit_text"/>
+
+    <EditText
+        android:id="@+id/et_sign_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:lines="1"
+        android:hint="@string/confirm_password"
+        android:background="@android:drawable/edit_text"/>
+
+    <EditText
+        android:id="@+id/et_sign_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:lines="1"
+        android:hint="@string/enter_nick"
+        android:background="@android:drawable/edit_text"/>
+
+    <EditText
+        android:id="@+id/et_sign_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="10dp"
+        android:lines="1"
+        android:hint="@string/enter_phone"
+        android:background="@android:drawable/edit_text"/>
+
+    <RadioGroup
+        android:id="@+id/rg_choose_sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <RadioButton
+            android:id="@+id/rbt_sex_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:checked="true"
+            android:text="@string/man"/>
+
+        <RadioButton
+            android:id="@+id/rbt_sex_woman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="@string/woman"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_sign_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:text="@string/confirm"
+        android:onClick="Register"
+        android:background="@drawable/cercle_btn"/>
+
+</LinearLayout>
